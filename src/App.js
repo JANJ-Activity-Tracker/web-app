@@ -1,24 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import '@fontsource/roboto';
+import theme from './styles.js';
+import { ThemeProvider } from '@material-ui/styles';
 
 function App() {
+  const [page, setPage] = useState("login");
+  const [token, setToken] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        {page === "register" ? <Register setPage={setPage} setToken={setToken} /> :
+          page === "dashboard" ? <Dashboard /> :
+            <Login setPage={setPage} setToken={setToken} />}
+      </div>
+    </ThemeProvider>
   );
 }
 
