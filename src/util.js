@@ -41,3 +41,30 @@ export const requestLogin = async (username, password) => {
     var response = await data.json();
     return response;
 }
+
+export const request = async ({ type: reqType, path: url, body: body }) => {
+    let type = reqType ? reqType : body ? "POST" : "GET";
+    let req = { method: type };
+    let data;
+
+    if (reqType === "POST") {
+        if (body) {
+            req.body = JSON.stringify(body);
+        }
+
+        data = await fetch(`${URL}/${url}`, {
+            ...req,
+            headers: new Headers({
+                "Content-Type": "application/json",
+            }),
+        });
+    }
+    else {
+        data = await fetch(`${URL}/${url}`, {
+            ...req,
+        });
+    }
+
+    var response = await data.json();
+    return response;
+}
