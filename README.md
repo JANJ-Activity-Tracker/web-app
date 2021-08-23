@@ -1,3 +1,6 @@
+DEV: https://janj-hsh-activity-tracker-dev.herokuapp.com/
+PROD: https://janj-hsh-activity-tracker.herokuapp.com/ 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
