@@ -54,7 +54,6 @@ export default function Register({ setPage, setToken }) {
     const [email, setEmail] = useState("");
     const [grade, setGrade] = useState("");
     const [school, setSchool] = useState("");
-    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [error, setError] = useState("");
@@ -74,10 +73,11 @@ export default function Register({ setPage, setToken }) {
             setError("Password must be at least 8 characters long.");
             return;
         }
-        let response = await requestRegister(firstname, lastname, email, grade, school, username, password, password2);
-        console.log(response);
+        let response = await requestRegister(firstname, lastname, email, grade, school, password, password2);
+
         if (response && response.token) {
             localStorage.setItem('token', response.token);
+            localStorage.setItem('email', email);
             setError("");
             setToken(response.token);
             setPage("dashboard");
@@ -119,6 +119,10 @@ export default function Register({ setPage, setToken }) {
                     <br />
                     <TextField id="email" label="Email" className={classes.input} onChange={(e) => setEmail(e.target.value)} />
                     <br />
+                    <TextField id="password" label="Password" className={classes.input} type="password" onChange={(e) => setPassword(e.target.value)} />
+                    <br />
+                    <TextField id="password2" label="Retype Password" className={classes.input} type="password" onChange={(e) => setPassword2(e.target.value)} />
+                    <br />
                     <FormControl className={classes.input}>
                         <InputLabel id="grade">Grade</InputLabel>
                         <Select
@@ -144,12 +148,6 @@ export default function Register({ setPage, setToken }) {
                     </FormControl>
                     <br />
                     <TextField id="school" label="School" className={classes.input} onChange={(e) => setSchool(e.target.value)} />
-                    <br />
-                    <TextField id="username" label="Username" className={classes.input} onChange={(e) => setUsername(e.target.value)} />
-                    <br />
-                    <TextField id="password" label="Password" className={classes.input} type="password" onChange={(e) => setPassword(e.target.value)} />
-                    <br />
-                    <TextField id="password2" label="Retype Password" className={classes.input} type="password" onChange={(e) => setPassword2(e.target.value)} />
                     <br />
                     <Typography variant="body1">
                         {error}

@@ -9,9 +9,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function UpcomingEvents() {
+export default function UpcomingEvents({ events }) {
     const classes = useStyles();
-    const [events, setEvents] = useState({});
+
     const columns = [
         {
             name: "Name",
@@ -42,30 +42,9 @@ export default function UpcomingEvents() {
         }
     ];
 
-    const updateEvents = async () => {
-        let response = await request({
-            type: "GET",
-            path: "events/"
-        })
-        setEvents(response);
-        console.log(response);
-    }
-
-    useEffect(() => {
-        if (Object.keys(events).length !== 0) {
-            const interval = setInterval(updateEvents, 300000);
-            return () => {
-                clearInterval(interval);
-            }
-        }
-        else {
-            updateEvents();
-        }
-    })
-
     return (
         <div>
-            <Typography variant="h4" className={classes.text}>Upcoming Events</Typography>
+            <Typography variant="h4" className={classes.text}>JANJ Events</Typography>
             <br /><br />
             <DataTable
                 columns={columns}

@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login({ setPage, setToken }) {
     const classes = useStyles();
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState(""); // same as username
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const register = (e) => {
@@ -46,10 +46,11 @@ export default function Login({ setPage, setToken }) {
         setPage("register");
     }
     const login = async (e) => {
-        let response = await requestLogin(username, password);
+        let response = await requestLogin(email, password);
         console.log(response);
         if (response && response.token) {
             localStorage.setItem('token', response.token);
+            localStorage.setItem('email', email);
             setError("");
             setToken(response.token);
             setPage("dashboard");
@@ -73,7 +74,7 @@ export default function Login({ setPage, setToken }) {
                     Activity Tracker Login
                 </Typography>
                 <form autoComplete="off">
-                    <TextField id="standard-basic" label="Username" className={classes.input} onChange={(e) => setUsername(e.target.value)} />
+                    <TextField id="standard-basic" label="Email" className={classes.input} onChange={(e) => setEmail(e.target.value)} />
                     <br />
                     <TextField id="standard-basic" label="Password" className={classes.input} type="password" onChange={(e) => setPassword(e.target.value)} />
                     <br />

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import ProfileSummary from "../components/ProfileSummary";
 import UpcomingEvents from "../components/UpcomingEvents";
 import Portfolio from "../components/Portfolio";
 import Stats from "../components/Stats";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { request } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +30,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard({ setPage, setToken }) {
     const classes = useStyles();
+    const [events, setEvents] = useState({});
+
+    const updateEvents = async () => {
+        let response = await request({
+            type: "GET",
+            path: "events/"
+        })
+        setEvents(response);
+        console.log(response);
+    }
+
+    useEffect(() => {
+        if (Object.keys(events).length !== 0) {
+            const interval = setInterval(updateEvents, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else {
+            updateEvents();
+        }
+    })
 
     return (
         <div align="center" className={classes.root}>
@@ -53,13 +76,13 @@ export default function Dashboard({ setPage, setToken }) {
                 <Grid item xs={12}></Grid>
                 <Grid item xs={10}>
                     <div className={classes.box}>
-                        <Portfolio />
+                        <Portfolio events={events} updateEvents={updateEvents} />
                     </div>
                 </Grid>
                 <Grid item xs={12}></Grid>
                 <Grid item xs={10}>
                     <div className={classes.box}>
-                        <UpcomingEvents />
+                        <UpcomingEvents events={events} />
                     </div>
                 </Grid>
                 <Grid item xs={12}></Grid>
