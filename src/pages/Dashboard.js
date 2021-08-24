@@ -4,7 +4,7 @@ import ProfileSummary from "../components/ProfileSummary";
 import UpcomingEvents from "../components/UpcomingEvents";
 import Portfolio from "../components/Portfolio";
 import Stats from "../components/Stats";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import { request } from "../util";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Dashboard({ setPage, setToken }) {
+export default function Dashboard({ setPage }) {
     const classes = useStyles();
     const [events, setEvents] = useState({});
 
@@ -55,7 +55,7 @@ export default function Dashboard({ setPage, setToken }) {
 
     return (
         <div align="center" className={classes.root}>
-            <Header />
+            <Header setPage={setPage} />
             <Grid
                 container
                 direction="row"
@@ -76,7 +76,7 @@ export default function Dashboard({ setPage, setToken }) {
                 <Grid item xs={12}></Grid>
                 <Grid item xs={10}>
                     <div className={classes.box}>
-                        <Portfolio events={events} updateEvents={updateEvents} />
+                        <Portfolio events={events} />
                     </div>
                 </Grid>
                 <Grid item xs={12}></Grid>

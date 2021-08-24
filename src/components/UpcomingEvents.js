@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles, Typography } from "@material-ui/core";
-import { request } from "../util";
 import DataTable from "react-data-table-component";
 
 const useStyles = makeStyles((theme) => ({

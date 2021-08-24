@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Register({ setPage, setToken }) {
+export default function Register({ setPage }) {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
@@ -79,7 +79,6 @@ export default function Register({ setPage, setToken }) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('email', email);
             setError("");
-            setToken(response.token);
             setPage("dashboard");
         }
         else if (response && response.first_name) {

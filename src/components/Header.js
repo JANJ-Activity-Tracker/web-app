@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Header({ setPage, setToken }) {
+export default function Header({ setPage }) {
     const classes = useStyles();
     const [menuSelect, setMenuSelect] = useState(null);
     const menuOpen = Boolean(menuSelect);
@@ -32,6 +32,12 @@ export default function Header({ setPage, setToken }) {
     const handleClose = () => {
         setMenuSelect(null);
     };
+
+    const logout = () => {
+        setPage("login");
+        localStorage.setItem("token", "");
+        localStorage.setItem("email", "");
+    }
 
     return (
         <div>
@@ -63,7 +69,7 @@ export default function Header({ setPage, setToken }) {
                         onClose={handleClose}
                     >
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                        <MenuItem onClick={logout}>Log Out</MenuItem>
                     </Menu>
                 </Toolbar>
             </AppBar>

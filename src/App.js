@@ -9,14 +9,13 @@ import { ThemeProvider } from '@material-ui/styles';
 
 function App() {
   const [page, setPage] = useState("login");
-  const [token, setToken] = useState("");
 
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        {page === "register" ? <Register setPage={setPage} setToken={setToken} /> :
-          page === "dashboard" ? <Dashboard /> :
-            <Login setPage={setPage} setToken={setToken} />}
+        {page === "register" ? <Register setPage={setPage} /> :
+          page === "dashboard" ? <Dashboard setPage={setPage} /> :
+            <Login setPage={setPage} />}
       </div>
     </ThemeProvider>
   );

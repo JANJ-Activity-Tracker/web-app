@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Portfolio({ events, updateEvents }) {
+export default function Portfolio({ events }) {
     const classes = useStyles();
     const [log, setLog] = useState({});
     const [eventName, setEventName] = useState("");
@@ -83,9 +83,14 @@ export default function Portfolio({ events, updateEvents }) {
     };
 
     useEffect(() => {
-        const interval = setInterval(updateLog, 300000);
-        return () => {
-            clearInterval(interval);
+        if (Object.keys(log).length !== 0) {
+            const interval = setInterval(updateLog, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else {
+            updateLog();
         }
     });
 
