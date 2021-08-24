@@ -31,7 +31,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard({ setPage }) {
     const classes = useStyles();
     const [events, setEvents] = useState({});
+    const [log, setLog] = useState({});
 
+    // JANJ events
     const updateEvents = async () => {
         let response = await request({
             type: "GET",
@@ -53,6 +55,37 @@ export default function Dashboard({ setPage }) {
         }
     })
 
+    // User volunteer and participation log 
+    const updateLog = async () => {
+        let response = await request({
+            type: "GET",
+            path: `log/${localStorage.getItem("email")}` // change to any user
+        })
+        setLog(response);
+        console.log(response);
+    };
+
+    useEffect(() => {
+        console.log(log.length);
+        if (Object.keys(log).length !== 0) {
+            const interval = setInterval(updateLog, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else if (log.length == 0) {
+            console.log("no entries")
+            const interval = setInterval(updateLog, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else {
+            console.log("else");
+            updateLog();
+        }
+    });
+
     return (
         <div align="center" className={classes.root}>
             <Header setPage={setPage} />
@@ -70,13 +103,13 @@ export default function Dashboard({ setPage }) {
                 </Grid>
                 <Grid item xs={5}>
                     <div className={classes.box}>
-                        <Stats />
+                        <Stats log={log} />
                     </div>
                 </Grid>
                 <Grid item xs={12}></Grid>
                 <Grid item xs={10}>
                     <div className={classes.box}>
-                        <Portfolio events={events} />
+                        <Portfolio events={events} log={log} updateLog={updateLog} />
                     </div>
                 </Grid>
                 <Grid item xs={12}></Grid>

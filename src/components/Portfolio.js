@@ -25,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Portfolio({ events }) {
+export default function Portfolio({ events, log, updateLog }) {
     const classes = useStyles();
-    const [log, setLog] = useState({});
     const [eventName, setEventName] = useState("");
     const [role, setRole] = useState("");
     const [prepHours, setPrepHours] = useState(0);
     const [eventHours, setEventHours] = useState(0);
     const [comments, setComments] = useState("");
+    const [error, setError] = useState("");
 
     const [openDialog, setOpenDialog] = useState(false);
     const handleClickOpen = () => {
@@ -73,27 +73,6 @@ export default function Portfolio({ events }) {
         }
     ];
 
-    const updateLog = async () => {
-        let response = await request({
-            type: "GET",
-            path: `log/${localStorage.getItem("email")}` // change to any user
-        })
-        setLog(response);
-        console.log(response);
-    };
-
-    useEffect(() => {
-        if (Object.keys(log).length !== 0) {
-            const interval = setInterval(updateLog, 300000);
-            return () => {
-                clearInterval(interval);
-            }
-        }
-        else {
-            updateLog();
-        }
-    });
-
     function handlePrepHoursChange(event) {
         if (event.target.value < 0) {
             event.target.value = 0;
@@ -109,12 +88,10 @@ export default function Portfolio({ events }) {
     }
 
     async function addEvent() {
-        handleClose();
         let event = events.filter(function (item) {
             return item.event_name == eventName;
         });
         let id = event[0].id;
-        console.log(id);
         let response = await request({
             type: "POST",
             path: "log/add/", // change to any user
@@ -129,8 +106,41 @@ export default function Portfolio({ events }) {
             }
         });
 
+        if (response.response !== "Successfully added new log entry.") {
+            if (response.event_name) {
+                setError("Event Name: " + response.comments);
+                return;
+            }
+            else if (response.user_email) {
+                setError("Error with user email");
+                return;
+            }
+            else if (response.event_id) {
+                setError("Error with event id");
+                return;
+            }
+            else if (response.role) {
+                setError("Role: " + response.role);
+                return;
+            }
+            else if (response.prep_hours) {
+                setError("Preperation Hours: " + response.prep_hours);
+                return;
+            }
+            else if (response.event_hours) {
+                setError("Event Hours: " + response.event_hours);
+                return;
+            }
+            else if (response.comments) {
+                setError("Comments: " + response.comments);
+                return;
+            }
+        }
+
         console.log(response);
+        setError("");
         updateLog();
+        handleClose();
     }
 
     return (
@@ -207,6 +217,9 @@ export default function Portfolio({ events }) {
                         fullWidth
                         onChange={(e) => setComments(e.target.value)}
                     />
+                    <Typography variant="body1">
+                        {error}
+                    </Typography>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
