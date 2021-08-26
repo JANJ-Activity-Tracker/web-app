@@ -32,6 +32,29 @@ export default function Dashboard({ setPage }) {
     const classes = useStyles();
     const [events, setEvents] = useState({});
     const [log, setLog] = useState({});
+    const [profile, setProfile] = useState({});
+
+    // User profile 
+    const updateProfile = async () => {
+        let response = await request({
+            type: "GET",
+            path: `profile/${localStorage.getItem("email")}` // change to any user
+        })
+        setProfile(response);
+        console.log(response);
+    };
+
+    useEffect(() => {
+        if (Object.keys(profile).length !== 0) {
+            const interval = setInterval(updateProfile, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else {
+            updateProfile();
+        }
+    })
 
     // JANJ events
     const updateEvents = async () => {
@@ -40,7 +63,6 @@ export default function Dashboard({ setPage }) {
             path: "events/"
         })
         setEvents(response);
-        console.log(response);
     }
 
     useEffect(() => {
@@ -62,26 +84,16 @@ export default function Dashboard({ setPage }) {
             path: `log/${localStorage.getItem("email")}` // change to any user
         })
         setLog(response);
-        console.log(response);
     };
 
     useEffect(() => {
-        console.log(log.length);
-        if (Object.keys(log).length !== 0) {
-            const interval = setInterval(updateLog, 300000);
-            return () => {
-                clearInterval(interval);
-            }
-        }
-        else if (log.length === 0) {
-            console.log("no entries")
+        if (Object.keys(log).length !== 0 || log.length === 0) {
             const interval = setInterval(updateLog, 300000);
             return () => {
                 clearInterval(interval);
             }
         }
         else {
-            console.log("else");
             updateLog();
         }
     });
@@ -98,7 +110,7 @@ export default function Dashboard({ setPage }) {
                 className={classes.container}>
                 <Grid item xs={5}>
                     <div className={classes.box}>
-                        <ProfileSummary />
+                        <ProfileSummary profile={profile} />
                     </div>
                 </Grid>
                 <Grid item xs={5}>

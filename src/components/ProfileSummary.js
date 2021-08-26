@@ -11,15 +11,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ProfileSummary() {
+export default function ProfileSummary({ profile }) {
     const classes = useStyles();
 
     return (
         <div >
             <img src="/profile_default.png" className={classes.image} />
-            <Typography variant="body1" className={classes.text}>Name</Typography>
-            <Typography variant="body2" className={classes.text}>Grade #</Typography>
-            <Typography variant="body2" className={classes.text}>School</Typography>
+            <Typography variant="body1" className={classes.text}>{profile.first_name + " " + profile.last_name}</Typography>
+            <Typography variant="body2" className={classes.text}>{profile.grade}</Typography>
+            <Typography variant="body2" className={classes.text}>{profile.school}</Typography>
         </div>
     )
 }
