@@ -73,7 +73,7 @@ export default function Dashboard({ setPage }) {
                 clearInterval(interval);
             }
         }
-        else if (log.length == 0) {
+        else if (log.length === 0) {
             console.log("no entries")
             const interval = setInterval(updateLog, 300000);
             return () => {

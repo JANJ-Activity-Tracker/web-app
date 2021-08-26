@@ -89,7 +89,7 @@ export default function Portfolio({ events, log, updateLog }) {
 
     async function addEvent() {
         let event = events.filter(function (item) {
-            return item.event_name == eventName;
+            return item.event_name === eventName;
         });
         let id = event[0].id;
         let response = await request({
@@ -168,7 +168,8 @@ export default function Portfolio({ events, log, updateLog }) {
                             align="left"
                             onChange={(e) => setEventName(e.target.value)}
                         >
-                            {Object.keys(events).length !== 0 ?
+                            {console.log(events)}
+                            {events[0] ?
                                 events.map(event => <MenuItem value={event.event_name}>{event.event_name}</MenuItem>)
                                 : <TextField
                                     autoFocus
