@@ -19,17 +19,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Stats({ log }) {
     const classes = useStyles();
-    const [numVolunteerEvents, setNumVolunteerEvents] = useState("Loading...");
-    const [numParticipantEvents, setNumParticipantEvents] = useState("Loading...");
+    const [numEvents, setNumEvents] = useState("Loading...");
     const [hours, setHours] = useState("Loading...");
 
     function updateStats() {
-        setNumVolunteerEvents(log.filter(event => event.role === "Volunteer" || event.role === "volunteer").length);
-        setNumParticipantEvents(log.filter(event => event.role === "Participant" || event.role === "participant").length);
+        setNumEvents(log.length);
         let totalHours = 0;
         for (let i = 0; i < log.length; i++) {
-            totalHours += parseFloat(log[i].prep_hours);
-            totalHours += parseFloat(log[i].event_hours);
+            totalHours += parseFloat(log[i].hours);
         }
         setHours(totalHours);
     }
@@ -49,9 +46,8 @@ export default function Stats({ log }) {
             <div align="left" >
                 <Typography variant="h2" className={classes.text}>Stats</Typography>
                 <br />
-                <Typography variant="h3" className={classes.text}>Volunteer Events: {numVolunteerEvents} </Typography>
-                <Typography variant="h3" className={classes.text}>Participant Events: {numParticipantEvents} </Typography>
-                <Typography variant="h3" className={classes.text}>Hours: {hours} </Typography>
+                <Typography variant="h3" className={classes.text}>Number of Events: {numEvents} </Typography>
+                <Typography variant="h3" className={classes.text}>Total Hours: {hours} </Typography>
             </div>
         </div>
     )

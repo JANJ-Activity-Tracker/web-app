@@ -28,9 +28,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Portfolio({ events, log, updateLog }) {
     const classes = useStyles();
     const [eventName, setEventName] = useState("");
+    const [customEventName, setCustomEventName] = useState("");
     const [role, setRole] = useState("");
-    const [prepHours, setPrepHours] = useState(0);
-    const [eventHours, setEventHours] = useState(0);
+    const [hours, setHours] = useState(0);
     const [comments, setComments] = useState("");
     const [error, setError] = useState("");
 
@@ -53,17 +53,13 @@ export default function Portfolio({ events, log, updateLog }) {
         {
             name: "Role",
             selector: "role",
-            sortable: false
-        },
-        {
-            name: "Prep Hours",
-            selector: "prep_hours",
             sortable: false,
+            grow: 2
         },
         {
-            name: "Event Hours",
-            selector: "event_hours",
-            sortable: false
+            name: "Hours",
+            selector: "hours",
+            sortable: true,
         },
         {
             name: "Comments",
@@ -73,35 +69,26 @@ export default function Portfolio({ events, log, updateLog }) {
         }
     ];
 
-    function handlePrepHoursChange(event) {
+    function handleHoursChange(event) {
         if (event.target.value < 0) {
             event.target.value = 0;
         }
-        setPrepHours(event.target.value);
-    }
-
-    function handleEventHoursChange(event) {
-        if (event.target.value < 0) {
-            event.target.value = 0;
-        }
-        setEventHours(event.target.value);
+        setHours(event.target.value);
     }
 
     async function addEvent() {
-        let event = events.filter(function (item) {
-            return item.event_name === eventName;
-        });
-        let id = event[0].id;
+        let event = eventName;
+        if (eventName === "Other") {
+            event = customEventName;
+        }
         let response = await request({
             type: "POST",
             path: "log/add/", // change to any user
             body: {
-                event_name: eventName,
+                event_name: event,
                 user_email: localStorage.getItem("email"),
-                event_id: id,
                 role: role,
-                prep_hours: prepHours,
-                event_hours: eventHours,
+                hours: hours,
                 comments: comments
             }
         });
@@ -123,12 +110,8 @@ export default function Portfolio({ events, log, updateLog }) {
                 setError("Role: " + response.role);
                 return;
             }
-            else if (response.prep_hours) {
-                setError("Preperation Hours: " + response.prep_hours);
-                return;
-            }
-            else if (response.event_hours) {
-                setError("Event Hours: " + response.event_hours);
+            else if (response.hours) {
+                setError("Hours: " + response.hours);
                 return;
             }
             else if (response.comments) {
@@ -179,36 +162,37 @@ export default function Portfolio({ events, log, updateLog }) {
                                     fullWidth
                                     onChange={(e) => setEventName(e.target.value)}
                                 />}
+                            < MenuItem value="Other">Other</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="role">Role</InputLabel>
-                        <Select
-                            labelId="role"
-                            align="left"
-                            onChange={(e) => setRole(e.target.value)}
-                        >
-                            <MenuItem value="Volunteer" >Volunteer</MenuItem>
-                            <MenuItem value="Participant" >Participant</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <br /><br />
+                    {eventName === "Other" ? <TextField
+                        autoFocus
+                        margin="dense"
+                        id="hours"
+                        label="Event Name"
+                        fullWidth
+                        onChange={(e) => setCustomEventName(e.target.value)}
+                    /> : ""}
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="prep_hours"
-                        label="Preparation Hours"
+                        id="hours"
+                        label="Role"
+                        helperText="Describe what you did as a volunteer."
                         fullWidth
-                        type="number"
-                        onChange={(event) => handlePrepHoursChange(event)}
+                        onChange={(e) => setRole(e.target.value)}
                     />
+                    <br />
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="event_hours"
-                        label="Event Hours"
+                        id="hours"
+                        label="Volunteer Hours"
+                        helperText="Include preparation, training, event, meeting time etc."
                         fullWidth
                         type="number"
-                        onChange={(event) => handleEventHoursChange(event)}
+                        onChange={(event) => handleHoursChange(event)}
                     />
                     <TextField
                         autoFocus
