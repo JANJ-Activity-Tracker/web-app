@@ -68,7 +68,7 @@ export default function Header({ setPage }) {
                         open={menuOpen}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={handleClose}>Dashboard</MenuItem>
+                        <MenuItem onClick={() => setPage("dashboard")}>Dashboard</MenuItem>
                         <MenuItem onClick={() => setPage("profile")}>Edit Profile</MenuItem>
                         <MenuItem onClick={logout}>Log Out</MenuItem>
                     </Menu>
