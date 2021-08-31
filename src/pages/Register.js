@@ -54,6 +54,7 @@ export default function Register({ setPage }) {
     const [email, setEmail] = useState("");
     const [grade, setGrade] = useState("");
     const [school, setSchool] = useState("");
+    const [township, setTownship] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [error, setError] = useState("");
@@ -73,7 +74,7 @@ export default function Register({ setPage }) {
             setError("Password must be at least 8 characters long.");
             return;
         }
-        let response = await requestRegister(firstname, lastname, email, grade, school, password, password2);
+        let response = await requestRegister(firstname, lastname, email, grade, school, township, password, password2);
 
         if (response && response.token) {
             localStorage.setItem('token', response.token);
@@ -98,6 +99,9 @@ export default function Register({ setPage }) {
         }
         else if (response && response.username) {
             setError(response.username);
+        }
+        else if (response && response.township) {
+            setError(response.township);
         }
         else {
             setError("Error creating account. Contact admin at adptechchallenge@gmail.com.");
@@ -137,7 +141,7 @@ export default function Register({ setPage }) {
                             <MenuItem value="Grade 5" >Grade 5</MenuItem>
                             <MenuItem value="Grade 6" >Grade 6</MenuItem>
                             <MenuItem value="Grade 7" >Grade 7</MenuItem>
-                            <MenuItem value="Grade 8" >Grade 8</MenuItem>
+                            <MenuItem value="Grade 8 or under" >Grade 8</MenuItem>
                             <MenuItem value="Grade 9" >Grade 9</MenuItem>
                             <MenuItem value="Grade 10" >Grade 10</MenuItem>
                             <MenuItem value="Grade 11" >Grade 11</MenuItem>
@@ -147,6 +151,8 @@ export default function Register({ setPage }) {
                     </FormControl>
                     <br />
                     <TextField id="school" label="School" className={classes.input} onChange={(e) => setSchool(e.target.value)} />
+                    <br />
+                    <TextField id="township" label="Township" className={classes.input} onChange={(e) => setTownship(e.target.value)} />
                     <br />
                     <Typography variant="body1">
                         {error}

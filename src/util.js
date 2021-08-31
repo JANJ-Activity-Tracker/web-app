@@ -1,6 +1,6 @@
 import { URL } from "./constants";
 
-export const requestRegister = async (firstname, lastname, email, grade, school, password, password2) => {
+export const requestRegister = async (firstname, lastname, email, grade, school, township, password, password2) => {
     let request = { method: "POST" };
     let info = {
         first_name: firstname,
@@ -8,6 +8,7 @@ export const requestRegister = async (firstname, lastname, email, grade, school,
         email: email,
         grade: grade,
         school: school,
+        township: township,
         username: email,
         password: password,
         password2: password2
