@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
     Button,
+    CircularProgress,
     FormControl,
     InputLabel,
     Link,
@@ -58,6 +59,7 @@ export default function Register({ setPage }) {
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const classes = useStyles();
     const login = (e) => {
@@ -74,7 +76,10 @@ export default function Register({ setPage }) {
             setError("Password must be at least 8 characters long.");
             return;
         }
+
+        setLoading(true);
         let response = await requestRegister(firstname, lastname, email, grade, school, township, password, password2);
+        setLoading(false);
 
         if (response && response.token) {
             localStorage.setItem('token', response.token);
@@ -158,6 +163,7 @@ export default function Register({ setPage }) {
                         {error}
                     </Typography>
                     <br />
+                    {loading ? <div><CircularProgress /></div> : ""}
                     <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => register(e)}>
                         Register
                     </Button>

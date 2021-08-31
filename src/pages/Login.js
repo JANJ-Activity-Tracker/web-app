@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core";
 import { requestLogin } from "../util";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,12 +41,17 @@ export default function Login({ setPage }) {
     const [email, setEmail] = useState(""); // same as username
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const register = (e) => {
         e.preventDefault();
         setPage("register");
     }
+
     const login = async (e) => {
+        setLoading(true);
         let response = await requestLogin(email, password);
+        setLoading(false);
         console.log(response);
         if (response && response.token) {
             localStorage.setItem('token', response.token);
@@ -81,6 +86,7 @@ export default function Login({ setPage }) {
                         {error}
                     </Typography>
                     <br />
+                    {loading ? <div><CircularProgress /></div> : ""}
                     <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => login(e)}>
                         Sign In
                     </Button>
