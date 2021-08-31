@@ -14,7 +14,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         {page === "register" ? <Register setPage={setPage} /> :
-          page === "dashboard" ? <Dashboard setPage={setPage} /> :
+          page === "dashboard" || page === "profile" ? <Dashboard page={page} setPage={setPage} /> :
             <Login setPage={setPage} />}
       </div>
     </ThemeProvider>

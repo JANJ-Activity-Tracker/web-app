@@ -4,6 +4,7 @@ import ProfileSummary from "../components/ProfileSummary";
 import UpcomingEvents from "../components/UpcomingEvents";
 import Portfolio from "../components/Portfolio";
 import Stats from "../components/Stats";
+import Profile from "../components/Profile";
 import { Grid, makeStyles } from "@material-ui/core";
 import { request } from "../util";
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Dashboard({ setPage }) {
+export default function Dashboard({ page, setPage }) {
     const classes = useStyles();
     const [events, setEvents] = useState({});
     const [log, setLog] = useState({});
@@ -101,37 +102,40 @@ export default function Dashboard({ setPage }) {
     return (
         <div align="center" className={classes.root}>
             <Header setPage={setPage} />
-            <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="stretch"
-                spacing={3}
-                className={classes.container}>
-                <Grid item xs={5}>
-                    <div className={classes.box}>
-                        <ProfileSummary profile={profile} />
-                    </div>
+            {page === "dashboard" ?
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="stretch"
+                    spacing={3}
+                    className={classes.container}>
+                    <Grid item xs={5}>
+                        <div className={classes.box}>
+                            <ProfileSummary profile={profile} />
+                        </div>
+                    </Grid>
+                    <Grid item xs={5}>
+                        <div className={classes.box}>
+                            <Stats log={log} />
+                        </div>
+                    </Grid>
+                    <Grid item xs={12}></Grid>
+                    <Grid item xs={10}>
+                        <div className={classes.box}>
+                            <Portfolio events={events} log={log} updateLog={updateLog} />
+                        </div>
+                    </Grid>
+                    <Grid item xs={12}></Grid>
+                    <Grid item xs={10}>
+                        <div className={classes.box}>
+                            <UpcomingEvents events={events} />
+                        </div>
+                    </Grid>
+                    <Grid item xs={12}></Grid>
                 </Grid>
-                <Grid item xs={5}>
-                    <div className={classes.box}>
-                        <Stats log={log} />
-                    </div>
-                </Grid>
-                <Grid item xs={12}></Grid>
-                <Grid item xs={10}>
-                    <div className={classes.box}>
-                        <Portfolio events={events} log={log} updateLog={updateLog} profile={profile} />
-                    </div>
-                </Grid>
-                <Grid item xs={12}></Grid>
-                <Grid item xs={10}>
-                    <div className={classes.box}>
-                        <UpcomingEvents events={events} />
-                    </div>
-                </Grid>
-                <Grid item xs={12}></Grid>
-            </Grid>
+                : <Profile profile={profile} />
+            }
             <br /><br /><br />
         </div>
     )

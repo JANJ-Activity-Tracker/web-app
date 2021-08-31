@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Portfolio({ events, log, updateLog, profile }) {
+export default function Portfolio({ events, log, updateLog }) {
     const classes = useStyles();
     const [eventName, setEventName] = useState("");
     const [customEventName, setCustomEventName] = useState("");
@@ -132,7 +132,8 @@ export default function Portfolio({ events, log, updateLog, profile }) {
 
         const columnDelimiter = ',';
         const lineDelimiter = '\n';
-        const keys = Object.keys(log[0]);
+
+        const keys = Object.keys(array[0]);
 
         result = '';
         result += keys.join(columnDelimiter);
@@ -154,14 +155,22 @@ export default function Portfolio({ events, log, updateLog, profile }) {
     }
 
     // Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
-    function downloadCSV(array) {
+    async function downloadCSV() {
+        let array = await request({
+            type: "GET",
+            path: `log/${localStorage.getItem("email")}` // change to any user
+        })
+
+        let profile = await request({
+            type: "GET",
+            path: `profile/${localStorage.getItem("email")}` // change to any user
+        })
+
         const link = document.createElement('a');
         let csv = convertArrayOfObjectsToCSV(array);
         if (csv == null) return;
 
-        console.log(profile);
-
-        const filename = profile.first_name + ' JANJ Volunteer Log.csv';
+        const filename = profile.first_name + ' ' + profile.last_name + ' JANJ Volunteer Log.csv';
 
         if (!csv.match(/^data:text\/csv/i)) {
             csv = `data:text/csv;charset=utf-8,${csv}`;
@@ -173,7 +182,7 @@ export default function Portfolio({ events, log, updateLog, profile }) {
     }
 
     const Export = ({ onExport }) => <Button onClick={e => onExport(e.target.value)}>Export</Button>;
-    const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(log)} />, []);
+    const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV()} />, []);
 
     return (
         <div >
@@ -186,7 +195,7 @@ export default function Portfolio({ events, log, updateLog, profile }) {
                 data={log}
                 pagination
                 persistTableHead
-                noHeader={Object.keys(log).length === 0 || log.length === 0 ? true : false}
+                noHeader={Object.keys(log).length === 0 || log.length == 0 || log[0] === undefined || log[0] === null ? true : false}
                 paginationRowsPerPageOptions={[5, 10, 20, 30, 50]}
                 actions={actionsMemo}
             />
