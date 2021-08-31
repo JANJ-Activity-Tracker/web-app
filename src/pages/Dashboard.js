@@ -121,7 +121,7 @@ export default function Dashboard({ setPage }) {
                 <Grid item xs={12}></Grid>
                 <Grid item xs={10}>
                     <div className={classes.box}>
-                        <Portfolio events={events} log={log} updateLog={updateLog} />
+                        <Portfolio events={events} log={log} updateLog={updateLog} profile={profile} />
                     </div>
                 </Grid>
                 <Grid item xs={12}></Grid>

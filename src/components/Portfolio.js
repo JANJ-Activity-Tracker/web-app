@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Portfolio({ events, log, updateLog }) {
+export default function Portfolio({ events, log, updateLog, profile }) {
     const classes = useStyles();
     const [eventName, setEventName] = useState("");
     const [customEventName, setCustomEventName] = useState("");
@@ -126,11 +126,59 @@ export default function Portfolio({ events, log, updateLog }) {
         handleClose();
     }
 
+    // Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
+    function convertArrayOfObjectsToCSV(array) {
+        let result;
+
+        const columnDelimiter = ',';
+        const lineDelimiter = '\n';
+        const keys = Object.keys(log[0]);
+
+        result = '';
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+
+        array.forEach(item => {
+            let ctr = 0;
+            keys.forEach(key => {
+                if (ctr > 0) result += columnDelimiter;
+
+                result += item[key];
+
+                ctr++;
+            });
+            result += lineDelimiter;
+        });
+
+        return result;
+    }
+
+    // Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
+    function downloadCSV(array) {
+        const link = document.createElement('a');
+        let csv = convertArrayOfObjectsToCSV(array);
+        if (csv == null) return;
+
+        console.log(profile);
+
+        const filename = profile.first_name + ' JANJ Volunteer Log.csv';
+
+        if (!csv.match(/^data:text\/csv/i)) {
+            csv = `data:text/csv;charset=utf-8,${csv}`;
+        }
+
+        link.setAttribute('href', encodeURI(csv));
+        link.setAttribute('download', filename);
+        link.click();
+    }
+
+    const Export = ({ onExport }) => <Button onClick={e => onExport(e.target.value)}>Export</Button>;
+    const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(log)} />, []);
+
     return (
         <div >
             <Typography variant="h4" className={classes.text}>Portfolio</Typography>
             <Button variant="contained" color="secondary" className={classes.button} onClick={handleClickOpen}>Add New Event</Button>
-            <Button variant="contained" color="secondary" className={classes.button}>Download</Button>
             <br /><br />
             <DataTable
                 className={classes.table}
@@ -138,8 +186,9 @@ export default function Portfolio({ events, log, updateLog }) {
                 data={log}
                 pagination
                 persistTableHead
+                noHeader={Object.keys(log).length === 0 || log.length === 0 ? true : false}
                 paginationRowsPerPageOptions={[5, 10, 20, 30, 50]}
-                noHeader
+                actions={actionsMemo}
             />
             <Dialog open={openDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add New Event</DialogTitle>
