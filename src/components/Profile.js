@@ -21,7 +21,13 @@ const useStyles = makeStyles((theme) => ({
         height: "100%",
     },
     container: {
-        marginTop: "30px"
+        marginTop: "30px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        paddingBottom: "30px",
+    },
+    grid: {
+        marginBottom: "20px"
     },
     input: {
         minWidth: "300px",
@@ -76,7 +82,7 @@ export default function Profile({ profile, updateProfile }) {
                         <Typography variant="h3" >Edit Profile</Typography>
                     </div>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={12} sm={12} md={6} lg={5} xl={5}>
                     <div className={classes.box}>
                         <Typography variant="h6" >Personal Information</Typography>
                         <form autoComplete="off">

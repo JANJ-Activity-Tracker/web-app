@@ -11,9 +11,15 @@ const useStyles = makeStyles((theme) => ({
     },
     logo: {
         width: "200px",
+        [theme.breakpoints.down('sm')]: {
+            width: "100px",
+        },
     },
     title: {
         flexGrow: 1,
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 15
+        },
     },
     text: {
         color: "white",

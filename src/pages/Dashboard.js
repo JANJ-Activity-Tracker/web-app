@@ -25,8 +25,13 @@ const useStyles = makeStyles((theme) => ({
         height: "100%",
     },
     container: {
-        marginTop: "30px"
+        marginTop: "30px",
+        paddingLeft: "20px",
+        paddingRight: "20px"
     },
+    grid: {
+        marginBottom: "20px"
+    }
 }));
 
 export default function Dashboard({ page, setPage }) {
@@ -110,29 +115,26 @@ export default function Dashboard({ page, setPage }) {
                     alignItems="stretch"
                     spacing={3}
                     className={classes.container}>
-                    <Grid item xs={5}>
+                    <Grid item xs={12} sm={12} md={6} lg={5} xl={5} className={classes.grid}>
                         <div className={classes.box}>
                             <ProfileSummary profile={profile} />
                         </div>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={12} sm={12} md={6} lg={5} xl={5} className={classes.grid}>
                         <div className={classes.box}>
                             <Stats log={log} />
                         </div>
                     </Grid>
-                    <Grid item xs={12}></Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                         <div className={classes.box}>
                             <Portfolio events={events} log={log} updateLog={updateLog} />
                         </div>
                     </Grid>
-                    <Grid item xs={12}></Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                         <div className={classes.box}>
                             <UpcomingEvents events={events} />
                         </div>
                     </Grid>
-                    <Grid item xs={12}></Grid>
                 </Grid>
                 : <Profile profile={profile} updateProfile={updateProfile} />
             }
