@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { Button, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core";
 import { requestLogin } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.primary.main,
-        height: "100vh",
+        height: "100%",
         width: "100%",
         zIndex: 0,
     },
     image: {
-        width: "500px"
+        width: "500px",
+        [theme.breakpoints.down('sm')]: {
+            width: "300px",
+        },
     },
     paper: {
         position: "absolute",
@@ -24,12 +27,18 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         marginTop: "50px",
-        marginBottom: "20px"
+        marginBottom: "20px",
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 30
+        },
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 25
+        },
     },
     input: {
         minWidth: "300px",
         width: "80%",
-        marginBottom: "20px"
+        marginBottom: "20px",
     },
     button: {
         margin: "20px",
@@ -38,21 +47,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login({ setPage, setToken }) {
     const classes = useStyles();
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState(""); // same as username
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const register = (e) => {
         e.preventDefault();
         setPage("register");
     }
+
     const login = async (e) => {
-        let response = await requestLogin(username, password);
+        setLoading(true);
+        let response = await requestLogin(email, password);
+        setLoading(false);
         console.log(response);
         if (response && response.token) {
             localStorage.setItem('token', response.token);
+            localStorage.setItem('email', email);
             setError("");
-            setToken(response.token);
             setPage("dashboard");
+            setToken(localStorage.getItem("token"));
         }
         else if (response && response.username) {
             setError(response.username);
@@ -73,7 +88,7 @@ export default function Login({ setPage, setToken }) {
                     Activity Tracker Login
                 </Typography>
                 <form autoComplete="off">
-                    <TextField id="standard-basic" label="Username" className={classes.input} onChange={(e) => setUsername(e.target.value)} />
+                    <TextField id="standard-basic" label="Email" className={classes.input} onChange={(e) => setEmail(e.target.value)} />
                     <br />
                     <TextField id="standard-basic" label="Password" className={classes.input} type="password" onChange={(e) => setPassword(e.target.value)} />
                     <br />
@@ -81,6 +96,7 @@ export default function Login({ setPage, setToken }) {
                         {error}
                     </Typography>
                     <br />
+                    {loading ? <div><CircularProgress /></div> : ""}
                     <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => login(e)}>
                         Sign In
                     </Button>
