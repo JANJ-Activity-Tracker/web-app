@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Login({ setPage }) {
+export default function Login({ setPage, setToken }) {
     const classes = useStyles();
     const [email, setEmail] = useState(""); // same as username
     const [password, setPassword] = useState("");
@@ -58,6 +58,7 @@ export default function Login({ setPage }) {
             localStorage.setItem('email', email);
             setError("");
             setPage("dashboard");
+            setToken(localStorage.getItem("token"));
         }
         else if (response && response.username) {
             setError(response.username);
