@@ -247,7 +247,7 @@ export default function Portfolio({ events, log, updateLog }) {
                         margin="dense"
                         id="hours"
                         label="Volunteer Hours"
-                        helperText="Include preparation, training, event, meeting time etc."
+                        helperText="Include preparation, training, event, meeting times etc."
                         fullWidth
                         type="number"
                         onChange={(event) => handleHoursChange(event)}

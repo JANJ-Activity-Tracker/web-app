@@ -45,7 +45,7 @@ export default function Stats({ log }) {
         <div className={classes.root}>
             <div align="left" >
                 <Typography variant="h2" className={classes.text}>Stats</Typography>
-                <br />
+                <br /><br />
                 <Typography variant="h3" className={classes.text}>Number of Events: {numEvents} </Typography>
                 <Typography variant="h3" className={classes.text}>Total Hours: {hours} </Typography>
             </div>

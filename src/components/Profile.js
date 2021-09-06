@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Profile({ profile }) {
+export default function Profile({ profile, updateProfile }) {
     const classes = useStyles();
     const [firstname, setFirstname] = useState(profile.first_name || "");
     const [lastname, setLastname] = useState(profile.last_name || "");
@@ -44,6 +44,24 @@ export default function Profile({ profile }) {
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [error, setError] = useState("");
+
+    async function editProfile() {
+        let email = localStorage.getItem("email");
+        let response = await request({
+            type: "PATCH",
+            path: `edit-profile/${email}/`,
+            body: {
+                first_name: firstname,
+                last_name: lastname,
+                grade: grade,
+                school: school,
+                township: township
+            }
+        })
+
+        updateProfile();
+        console.log(response);
+    }
 
     return (
         <div >
@@ -76,7 +94,7 @@ export default function Profile({ profile }) {
                                 {error}
                             </Typography>
                             <br />
-                            <Button variant="contained" color="secondary" className={classes.button}>
+                            <Button variant="contained" color="secondary" className={classes.button} onClick={editProfile}>
                                 Save
                             </Button>
                         </form>

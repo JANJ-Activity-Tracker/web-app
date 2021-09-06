@@ -134,7 +134,7 @@ export default function Dashboard({ page, setPage }) {
                     </Grid>
                     <Grid item xs={12}></Grid>
                 </Grid>
-                : <Profile profile={profile} />
+                : <Profile profile={profile} updateProfile={updateProfile} />
             }
             <br /><br /><br />
         </div>

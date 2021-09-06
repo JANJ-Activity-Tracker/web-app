@@ -20,6 +20,7 @@ export default function ProfileSummary({ profile }) {
             <Typography variant="body1" className={classes.text}>{profile.first_name + " " + profile.last_name}</Typography>
             <Typography variant="body2" className={classes.text}>{profile.grade}</Typography>
             <Typography variant="body2" className={classes.text}>{profile.school}</Typography>
+            <Typography variant="body2" className={classes.text}>{profile.township}</Typography>
         </div>
     )
 }

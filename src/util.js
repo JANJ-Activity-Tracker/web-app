@@ -48,7 +48,7 @@ export const request = async ({ type: reqType, path: url, body: body }) => {
     let req = { method: type };
     let data;
 
-    if (reqType === "POST") {
+    if (reqType === "POST" || reqType === "PATCH") {
         if (body) {
             req.body = JSON.stringify(body);
         }
