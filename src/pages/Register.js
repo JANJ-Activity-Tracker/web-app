@@ -17,12 +17,15 @@ import { requestRegister } from "../util";
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.primary.main,
-        height: "100vh",
+        height: "100%",
         width: "100%",
         zIndex: 0,
     },
     image: {
-        width: "500px"
+        width: "500px",
+        [theme.breakpoints.down('sm')]: {
+            width: "200px"
+        },
     },
     paper: {
         position: "absolute",
@@ -33,16 +36,28 @@ const useStyles = makeStyles((theme) => ({
         padding: "30px",
         paddingBottom: "50px",
         boxShadow: "2px 2px 10px 0",
+        [theme.breakpoints.down('xs')]: {
+            minWidth: "200px",
+            top: "0px",
+            transform: "translate(-50%, 0)",
+        },
     },
     title: {
         marginTop: "50px",
-        marginBottom: "20px"
+        marginBottom: "20px",
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 25,
+            marginTop: "20px"
+        },
     },
     input: {
         minWidth: "300px",
         width: "80%",
         maxWidth: "500px",
-        marginBottom: "20px"
+        marginBottom: "20px",
+        [theme.breakpoints.down('xs')]: {
+            minWidth: "300px",
+        },
     },
     button: {
         margin: "20px",

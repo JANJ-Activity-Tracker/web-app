@@ -5,12 +5,15 @@ import { requestLogin } from "../util";
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.primary.main,
-        height: "100vh",
+        height: "100%",
         width: "100%",
         zIndex: 0,
     },
     image: {
-        width: "500px"
+        width: "500px",
+        [theme.breakpoints.down('sm')]: {
+            width: "300px",
+        },
     },
     paper: {
         position: "absolute",
@@ -24,12 +27,18 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         marginTop: "50px",
-        marginBottom: "20px"
+        marginBottom: "20px",
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 30
+        },
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 25
+        },
     },
     input: {
         minWidth: "300px",
         width: "80%",
-        marginBottom: "20px"
+        marginBottom: "20px",
     },
     button: {
         margin: "20px",
