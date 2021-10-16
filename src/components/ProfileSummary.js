@@ -3,7 +3,7 @@ import { makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     image: {
-        width: "200px",
+        width: "150px",
         marginBottom: "20px",
     },
     text: {

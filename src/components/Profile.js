@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-import { Button, Grid, makeStyles, TextField, Typography } from "@material-ui/core";
+import { Button, Grid, IconButton, makeStyles, TextField, Typography } from "@material-ui/core";
+import { styled } from '@mui/material/styles';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { request } from "../util";
+
+const Input = styled('input')({
+    display: 'none',
+});
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -9,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
         width: "100vw",
         zIndex: 0,
         flexGrow: 1,
+    },
+    image: {
+        marginTop: "10px",
+        width: "150px",
     },
     box: {
         borderColor: theme.palette.primary.main,
@@ -50,6 +60,19 @@ export default function Profile({ profile, updateProfile }) {
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [error, setError] = useState("");
+    const [image, setImage] = useState(null);
+    const [imageFile, setImageFile] = useState("/profile_default.png");
+
+    const handleUploadClick = event => {
+        var file = event.target.files[0];
+        const reader = new FileReader();
+        var url = reader.readAsDataURL(file);
+        reader.onloadend = function (e) {
+            setImageFile(reader.result);
+            setImage(event.target.files[0]);
+        }
+        console.log("uploaded");
+    };
 
     async function editProfile() {
         let email = localStorage.getItem("email");
@@ -85,6 +108,15 @@ export default function Profile({ profile, updateProfile }) {
                 <Grid item xs={12} sm={12} md={6} lg={5} xl={5}>
                     <div className={classes.box}>
                         <Typography variant="h6" >Personal Information</Typography>
+                        <img src={imageFile} className={classes.image} />
+                        <br />
+                        <label htmlFor="icon-button-file">
+                            <Input accept="image/*" id="icon-button-file" type="file" onChange={handleUploadClick} />
+                            <IconButton color="primary" aria-label="upload picture" component="span">
+                                <PhotoCamera />
+                            </IconButton>
+                        </label>
+                        <br /><br /><br />
                         <form autoComplete="off">
                             <TextField id="standard-basic" defaultValue={firstname} label="First Name" className={classes.input} onChange={(e) => setFirstname(e.target.value)} />
                             <br />
