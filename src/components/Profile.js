@@ -112,14 +112,14 @@ export default function Profile({ profile, updateProfile }) {
                     <div className={classes.box}>
                         <Typography variant="h6" >Personal Information</Typography>
                         {console.log(profile.imageFile)}
-                        <img src={imageFile} className={classes.image} />
+                        {/* <img src={imageFile} className={classes.image} />
                         <br />
                         <label htmlFor="icon-button-file">
                             <Input accept="image/*" id="icon-button-file" type="file" onChange={handleUploadClick} />
                             <IconButton color="primary" aria-label="upload picture" component="span">
                                 <PhotoCamera />
                             </IconButton>
-                        </label>
+                        </label> */}
                         <br /><br /><br />
                         <form autoComplete="off">
                             <TextField id="standard-basic" defaultValue={firstname} label="First Name" className={classes.input} onChange={(e) => setFirstname(e.target.value)} />
