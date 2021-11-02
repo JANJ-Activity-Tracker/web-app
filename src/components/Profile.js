@@ -3,6 +3,7 @@ import { Button, Grid, IconButton, makeStyles, TextField, Typography } from "@ma
 import { styled } from '@mui/material/styles';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { request } from "../util";
+import { URL2 } from "../constants";
 
 const Input = styled('input')({
     display: 'none',
@@ -61,7 +62,7 @@ export default function Profile({ profile, updateProfile }) {
     const [password2, setPassword2] = useState("");
     const [error, setError] = useState("");
     const [image, setImage] = useState(null);
-    const [imageFile, setImageFile] = useState("/profile_default.png");
+    const [imageFile, setImageFile] = useState(URL2 + profile.profile_image || "/profile_default.png");
 
     const handleUploadClick = event => {
         var file = event.target.files[0];
@@ -76,6 +77,7 @@ export default function Profile({ profile, updateProfile }) {
 
     async function editProfile() {
         let email = localStorage.getItem("email");
+        console.log(image);
         let response = await request({
             type: "PATCH",
             path: `edit-profile/${email}/`,
@@ -84,7 +86,8 @@ export default function Profile({ profile, updateProfile }) {
                 last_name: lastname,
                 grade: grade,
                 school: school,
-                township: township
+                township: township,
+                profile_image: image
             }
         })
 
@@ -108,6 +111,7 @@ export default function Profile({ profile, updateProfile }) {
                 <Grid item xs={12} sm={12} md={6} lg={5} xl={5}>
                     <div className={classes.box}>
                         <Typography variant="h6" >Personal Information</Typography>
+                        {console.log(profile.imageFile)}
                         <img src={imageFile} className={classes.image} />
                         <br />
                         <label htmlFor="icon-button-file">
