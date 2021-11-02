@@ -11,7 +11,8 @@ export const requestRegister = async (firstname, lastname, email, grade, school,
         township: township,
         username: email,
         password: password,
-        password2: password2
+        password2: password2,
+        profile_image: null
     }
     request.body = JSON.stringify(info);
     let data = await fetch(`${URL}register/`, {
