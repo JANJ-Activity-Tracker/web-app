@@ -127,12 +127,15 @@ export default function Dashboard({ page, setPage }) {
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                         <div className={classes.box}>
-                            <Portfolio events={events} log={log} updateLog={updateLog} />
+                            <Portfolio
+                                events={Object.keys(events).length !== 0 ? events.filter(event => (event.active == true)) : events}
+                                log={log}
+                                updateLog={updateLog} />
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                         <div className={classes.box}>
-                            <UpcomingEvents events={events} />
+                            <UpcomingEvents events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming == true)) : events} />
                         </div>
                     </Grid>
                 </Grid>
