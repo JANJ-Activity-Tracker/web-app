@@ -34,7 +34,8 @@ export default function UpcomingEvents({ events }) {
         {
             name: "Name",
             selector: "event_name",
-            sortable: true
+            sortable: true,
+            grow: 2
         },
         {
             name: "Summary",
