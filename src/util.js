@@ -17,9 +17,12 @@ export const requestRegister = async (firstname, lastname, email, grade, school,
     request.body = JSON.stringify(info);
     let data = await fetch(`${URL}/register/`, {
         ...request,
-        headers: new Headers({
+        // TODO - this token is hardcoded now but need to fix
+        headers: {
             "Content-Type": "application/json",
-        }),
+            "X-Requested-With": "XMLHttpRequest",
+            'Authorization': `Token 31a33bf7d80ee9b5e5b0749ba4d2563d5496c5e9`,
+        },
     });
 
     var response = await data.json();
