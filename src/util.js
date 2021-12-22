@@ -15,7 +15,7 @@ export const requestRegister = async (firstname, lastname, email, grade, school,
         profile_image: null
     }
     request.body = JSON.stringify(info);
-    let data = await fetch(`${URL}register/`, {
+    let data = await fetch(`${URL}/register/`, {
         ...request,
         headers: new Headers({
             "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export const requestLogin = async (username, password) => {
         password: password
     }
     request.body = JSON.stringify(info);
-    let data = await fetch(`${URL}login/`, {
+    let data = await fetch(`${URL}/login/`, {
         ...request,
         headers: new Headers({
             "Content-Type": "application/json",
@@ -56,14 +56,23 @@ export const request = async ({ type: reqType, path: url, body: body }) => {
 
         data = await fetch(`${URL}/${url}`, {
             ...req,
-            headers: new Headers({
+            // token authentication 
+            headers: {
                 "Content-Type": "application/json",
-            }),
+                "X-Requested-With": "XMLHttpRequest",
+                'Authorization': `Token ${localStorage.getItem('token')}`,
+            },
         });
     }
     else {
         data = await fetch(`${URL}/${url}`, {
             ...req,
+            // token authentication 
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                'Authorization': `Token ${localStorage.getItem('token')}`,
+            },
         });
     }
 

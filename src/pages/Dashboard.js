@@ -7,7 +7,6 @@ import Stats from "../components/Stats";
 import Profile from "../components/Profile";
 import { Grid, makeStyles } from "@material-ui/core";
 import { request } from "../util";
-import { Token } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,22 +43,8 @@ export default function Dashboard({ page, setPage }) {
     // User profile 
     const updateProfile = async () => {
         let response = await request({
-            withCredentials: true,
-            credentials: 'same-origin',
-            mode: 'cors',
             type: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Token 31a33bf7d80ee9b5e5b0749ba4d2563d5496c5e9`,
-                "X-Requested-With": "XMLHttpRequest",
-                'Access-Control-Allow-Origin': '*',
-                "Access-Control-Allow-Headers": "X-Requested-With",
-                // 'WWW-Authenticate': 'Token',
-                // "Access-Control-Allow-Credentials": true,
-            },
-            path: `profile/${localStorage.getItem("email")
-                }/` // change to any user
+            path: `profile/${localStorage.getItem("email")}` // change to any user
         })
         setProfile(response);
         console.log(response);
@@ -80,20 +65,7 @@ export default function Dashboard({ page, setPage }) {
     // JANJ events
     const updateEvents = async () => {
         let response = await request({
-            withCredentials: true,
-            credentials: 'same-origin',
-            mode: 'cors',
             type: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Token 31a33bf7d80ee9b5e5b0749ba4d2563d5496c5e9`,
-                "X-Requested-With": "XMLHttpRequest",
-                'Access-Control-Allow-Origin': '*',
-                "Access-Control-Allow-Headers": "X-Requested-With",
-                // 'WWW-Authenticate': 'Token',
-                // "Access-Control-Allow-Credentials": true,
-            },
             path: "events/"
         })
         setEvents(response);
@@ -114,21 +86,8 @@ export default function Dashboard({ page, setPage }) {
     // User volunteer and participation log 
     const updateLog = async () => {
         let response = await request({
-            withCredentials: true,
-            credentials: 'same-origin',
-            mode: 'cors',
             type: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Token 31a33bf7d80ee9b5e5b0749ba4d2563d5496c5e9`,
-                "X-Requested-With": "XMLHttpRequest",
-                'Access-Control-Allow-Origin': '*',
-                "Access-Control-Allow-Headers": "X-Requested-With",
-                // 'WWW-Authenticate': 'Token',
-                // "Access-Control-Allow-Credentials": true,
-            },
-            path: `log/${localStorage.getItem("email")}/` // change to any user
+            path: `log/${localStorage.getItem("email")}` // change to any user
         })
         setLog(response);
     };
