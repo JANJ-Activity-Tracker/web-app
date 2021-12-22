@@ -7,6 +7,7 @@ import Stats from "../components/Stats";
 import Profile from "../components/Profile";
 import { Grid, makeStyles } from "@material-ui/core";
 import { request } from "../util";
+import { Token } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,8 +44,17 @@ export default function Dashboard({ page, setPage }) {
     // User profile 
     const updateProfile = async () => {
         let response = await request({
+            credentials: 'include',
             type: "GET",
-            path: `profile/${localStorage.getItem("email")}` // change to any user
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Connection': 'keep-alive',
+                'Authorization': `Bearer 31a33bf7d80ee9b5e5b0749ba4d2563d5496c5e9`,
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            path: `profile/${localStorage.getItem("email")
+                }` // change to any user
         })
         setProfile(response);
         console.log(response);
@@ -65,7 +75,15 @@ export default function Dashboard({ page, setPage }) {
     // JANJ events
     const updateEvents = async () => {
         let response = await request({
+            credentials: 'include',
             type: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Connection': 'keep-alive',
+                'Authorization': `Bearer 31a33bf7d80ee9b5e5b0749ba4d2563d5496c5e9`,
+                "X-Requested-With": "XMLHttpRequest",
+            },
             path: "events/"
         })
         setEvents(response);
@@ -86,8 +104,16 @@ export default function Dashboard({ page, setPage }) {
     // User volunteer and participation log 
     const updateLog = async () => {
         let response = await request({
+            credentials: 'include',
             type: "GET",
-            path: `log/${localStorage.getItem("email")}` // change to any user
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Connection': 'keep-alive',
+                'Authorization': `Bearer 31a33bf7d80ee9b5e5b0749ba4d2563d5496c5e9`,
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            path: `log/${localStorage.getItem("email")} ` // change to any user
         })
         setLog(response);
     };
