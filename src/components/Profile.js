@@ -3,7 +3,7 @@ import { Button, Grid, IconButton, makeStyles, TextField, Typography } from "@ma
 import { styled } from '@mui/material/styles';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { request } from "../util";
-import { URL2 } from "../constants";
+import { URL } from "../constants";
 
 const Input = styled('input')({
     display: 'none',
@@ -62,7 +62,7 @@ export default function Profile({ profile, updateProfile }) {
     const [password2, setPassword2] = useState("");
     const [error, setError] = useState("");
     const [image, setImage] = useState(null);
-    const [imageFile, setImageFile] = useState(URL2 + profile.profile_image || "/profile_default.png");
+    const [imageFile, setImageFile] = useState(URL + profile.profile_image || "/profile_default.png");
 
     const handleUploadClick = event => {
         var file = event.target.files[0];
