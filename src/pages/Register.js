@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import {
     Button,
     CircularProgress,
-    FormControl,
-    InputLabel,
     Link,
     makeStyles,
-    MenuItem,
     Paper,
-    Select,
     TextField,
     Typography
 } from "@material-ui/core";
@@ -68,7 +64,7 @@ export default function Register({ setPage, setToken }) {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
-    const [grade, setGrade] = useState("");
+    const [gradYear, setGradYear] = useState("");
     const [school, setSchool] = useState("");
     const [township, setTownship] = useState("");
     const [password, setPassword] = useState("");
@@ -93,7 +89,7 @@ export default function Register({ setPage, setToken }) {
         }
 
         setLoading(true);
-        let response = await requestRegister(firstname, lastname, email, grade, school, township, password, password2);
+        let response = await requestRegister(firstname, lastname, email, gradYear, school, township, password, password2);
         setLoading(false);
 
         if (response && response.token) {
@@ -112,8 +108,8 @@ export default function Register({ setPage, setToken }) {
         else if (response && response.email) {
             setError(response.email);
         }
-        else if (response && response.grade) {
-            setError(response.grade);
+        else if (response && response.grad_year) {
+            setError(response.grad_year);
         }
         else if (response && response.school) {
             setError(response.school);
@@ -147,29 +143,7 @@ export default function Register({ setPage, setToken }) {
                     <br />
                     <TextField id="password2" label="Retype Password" className={classes.input} type="password" onChange={(e) => setPassword2(e.target.value)} />
                     <br />
-                    <FormControl className={classes.input}>
-                        <InputLabel id="grade">Grade</InputLabel>
-                        <Select
-                            labelId="grade"
-                            value={grade}
-                            align="left"
-                            onChange={(e) => setGrade(e.target.value)}>
-                            <MenuItem value="Kindergarten" >Kindergarten</MenuItem>
-                            <MenuItem value="Grade 1" >Grade 1</MenuItem>
-                            <MenuItem value="Grade 2" >Grade 2</MenuItem>
-                            <MenuItem value="Grade 3" >Grade 3</MenuItem>
-                            <MenuItem value="Grade 4" >Grade 4</MenuItem>
-                            <MenuItem value="Grade 5" >Grade 5</MenuItem>
-                            <MenuItem value="Grade 6" >Grade 6</MenuItem>
-                            <MenuItem value="Grade 7" >Grade 7</MenuItem>
-                            <MenuItem value="Grade 8 or under" >Grade 8</MenuItem>
-                            <MenuItem value="Grade 9" >Grade 9</MenuItem>
-                            <MenuItem value="Grade 10" >Grade 10</MenuItem>
-                            <MenuItem value="Grade 11" >Grade 11</MenuItem>
-                            <MenuItem value="Grade 12" >Grade 12</MenuItem>
-                            <MenuItem value="College" >College</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <TextField id="gradYear" label="High School Graduation Year" className={classes.input} onChange={(e) => setGradYear(e.target.value)} />
                     <br />
                     <TextField id="school" label="School" className={classes.input} onChange={(e) => setSchool(e.target.value)} />
                     <br />

@@ -55,7 +55,7 @@ export default function Profile({ profile, updateProfile }) {
     const [firstname, setFirstname] = useState(profile.first_name || "");
     const [lastname, setLastname] = useState(profile.last_name || "");
     const [email, setEmail] = useState(profile.email || "");
-    const [grade, setGrade] = useState(profile.grade || "");
+    const [gradYear, setGradYear] = useState(profile.grad_year || "");
     const [school, setSchool] = useState(profile.school || "");
     const [township, setTownship] = useState(profile.township || "");
     const [password, setPassword] = useState("");
@@ -84,7 +84,7 @@ export default function Profile({ profile, updateProfile }) {
             body: {
                 first_name: firstname,
                 last_name: lastname,
-                grade: grade,
+                grad_year: gradYear,
                 school: school,
                 township: township,
                 profile_image: image
@@ -126,7 +126,7 @@ export default function Profile({ profile, updateProfile }) {
                             <br />
                             <TextField id="standard-basic" defaultValue={lastname} label="Last Name" className={classes.input} onChange={(e) => setLastname(e.target.value)} />
                             <br />
-                            <TextField id="standard-basic" defaultValue={grade} label="Grade" className={classes.input} onChange={(e) => setGrade(e.target.value)} />
+                            <TextField id="standard-basic" defaultValue={gradYear} label="High School Graduation Year" className={classes.input} onChange={(e) => setGradYear(e.target.value)} />
                             <br />
                             <TextField id="standard-basic" defaultValue={school} label="School" className={classes.input} onChange={(e) => setSchool(e.target.value)} />
                             <br />

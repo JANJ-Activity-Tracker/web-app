@@ -55,8 +55,13 @@ export default function UpcomingEvents({ events }) {
             sortable: false
         },
         {
-            name: "Time",
-            selector: "time",
+            name: "Start Date/Time",
+            selector: "start_datetime",
+            sortable: true
+        },
+        {
+            name: "End Date/Time",
+            selector: "end_datetime",
             sortable: false
         }
     ];
@@ -73,9 +78,10 @@ export default function UpcomingEvents({ events }) {
                             Event Summary: {data.event_summary} <br />
                             Volunteer Role: {data.role_description} <br />
                             Location: {data.location} <br />
-                            Time: {data.time} <br /><br />
+                            Start: {data.start_datetime}<br />
+                            End: {data.end_datetime} <br /><br />
                             {data.contact_name !== "" && data.contact_name !== undefined ?
-                                "For more information contact " + data.contact_name
+                                "JA contact: " + data.contact_name
                                 : (data.contact_email !== "" && data.contact_email !== undefined) || (data.contact_number != "" && data.contact_number !== undefined)
                                     ? "Contact: " : ""}
                             {(data.contact_email !== "" && data.contact_email !== undefined) || (data.contact_number != "" && data.contact_number !== undefined) ? <br /> : ""}

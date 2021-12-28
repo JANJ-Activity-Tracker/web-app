@@ -1,18 +1,17 @@
 import { URL } from "./constants";
 
-export const requestRegister = async (firstname, lastname, email, grade, school, township, password, password2) => {
+export const requestRegister = async (firstname, lastname, email, grad_year, school, township, password, password2) => {
     let request = { method: "POST" };
     let info = {
         first_name: firstname,
         last_name: lastname,
         email: email,
-        grade: grade,
+        grad_year: grad_year,
         school: school,
         township: township,
         username: email,
         password: password,
-        password2: password2,
-        profile_image: null
+        password2: password2
     }
     request.body = JSON.stringify(info);
     let data = await fetch(`${URL}/register/`, {

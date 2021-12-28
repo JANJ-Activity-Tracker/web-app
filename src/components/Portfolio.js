@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import {
     Button,
     Dialog,
@@ -13,7 +13,9 @@ import {
     TextField,
     Typography
 } from "@material-ui/core";
+import DateFnsUtils from '@date-io/date-fns';
 import DataTable from "react-data-table-component";
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { request } from "../util";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +34,11 @@ export default function Portfolio({ events, log, updateLog }) {
     const [role, setRole] = useState("");
     const [hours, setHours] = useState(0);
     const [comments, setComments] = useState("");
+    let t = new Date();
+    let month = t.getMonth() + 1;
+    let day = t.getDate();
+    let year = t.getFullYear();
+    const [date, setDate] = useState(month + "/" + day + "/" + year);
     const [error, setError] = useState("");
 
     const [openDialog, setOpenDialog] = useState(false);
@@ -55,6 +62,11 @@ export default function Portfolio({ events, log, updateLog }) {
             selector: "role",
             sortable: false,
             grow: 2
+        },
+        {
+            name: "Date",
+            selector: "date",
+            sortable: true,
         },
         {
             name: "Hours",
@@ -81,6 +93,7 @@ export default function Portfolio({ events, log, updateLog }) {
         if (eventName === "Other") {
             event = customEventName;
         }
+
         let response = await request({
             type: "POST",
             path: "log/add/", // change to any user
@@ -89,7 +102,8 @@ export default function Portfolio({ events, log, updateLog }) {
                 user_email: localStorage.getItem("email"),
                 role: role,
                 hours: hours,
-                comments: comments
+                comments: comments,
+                date: date
             }
         });
 
@@ -186,93 +200,107 @@ export default function Portfolio({ events, log, updateLog }) {
 
     return (
         <div >
-            <Typography variant="h4" className={classes.text}>Portfolio</Typography>
-            <Button variant="contained" color="secondary" className={classes.button} onClick={handleClickOpen}>Add New Event</Button>
-            <br /><br />
-            <DataTable
-                className={classes.table}
-                columns={columns}
-                data={log}
-                pagination
-                persistTableHead
-                noHeader={Object.keys(log).length === 0 || log.length == 0 || log[0] === undefined || log[0] === null ? true : false}
-                paginationRowsPerPageOptions={[5, 10, 20, 30, 50]}
-                actions={actionsMemo}
-            />
-            <Dialog open={openDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Add New Event</DialogTitle>
-                <DialogContent>
-                    <FormControl fullWidth>
-                        <InputLabel id="event_name">Event Name</InputLabel>
-                        <Select
-                            labelId="event_name"
-                            align="left"
-                            onChange={(e) => setEventName(e.target.value)}
-                        >
-                            {console.log(events)}
-                            {events[0] ?
-                                events.map(event => <MenuItem value={event.event_name}>{event.event_name}</MenuItem>)
-                                : <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="event_name"
-                                    label="Event Name"
-                                    fullWidth
-                                    onChange={(e) => setEventName(e.target.value)}
-                                />}
-                            < MenuItem value="Other">Other</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <br /><br />
-                    {eventName === "Other" ? <TextField
-                        autoFocus
-                        margin="dense"
-                        id="hours"
-                        label="Event Name"
-                        fullWidth
-                        onChange={(e) => setCustomEventName(e.target.value)}
-                    /> : ""}
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="hours"
-                        label="Role"
-                        helperText="Describe what you did as a volunteer."
-                        fullWidth
-                        onChange={(e) => setRole(e.target.value)}
-                    />
-                    <br />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="hours"
-                        label="Volunteer Hours"
-                        helperText="Include preparation, training, event, meeting times etc."
-                        fullWidth
-                        type="number"
-                        onChange={(event) => handleHoursChange(event)}
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="comments"
-                        label="Comments"
-                        fullWidth
-                        onChange={(e) => setComments(e.target.value)}
-                    />
-                    <Typography variant="body1">
-                        {error}
-                    </Typography>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={addEvent} color="primary">
-                        Add
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Typography variant="h4" className={classes.text}>Portfolio</Typography>
+                <Button variant="contained" color="secondary" className={classes.button} onClick={handleClickOpen}>Add New Event</Button>
+                <br /><br />
+                <DataTable
+                    className={classes.table}
+                    columns={columns}
+                    data={log}
+                    pagination
+                    persistTableHead
+                    noHeader={Object.keys(log).length === 0 || log.length == 0 || log[0] === undefined || log[0] === null ? true : false}
+                    paginationRowsPerPageOptions={[5, 10, 20, 30, 50]}
+                    actions={actionsMemo}
+                />
+                <Dialog open={openDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Add New Event</DialogTitle>
+                    <DialogContent>
+                        <FormControl fullWidth>
+                            <InputLabel id="event_name">Event Name</InputLabel>
+                            <Select
+                                labelId="event_name"
+                                align="left"
+                                onChange={(e) => setEventName(e.target.value)}
+                            >
+                                {console.log(events)}
+                                {events[0] ?
+                                    events.map(event => <MenuItem value={event.event_name}>{event.event_name}</MenuItem>)
+                                    : <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="event_name"
+                                        label="Event Name"
+                                        fullWidth
+                                        onChange={(e) => setEventName(e.target.value)}
+                                    />}
+                                < MenuItem value="Other">Other</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <br /><br />
+                        {eventName === "Other" ? <TextField
+                            autoFocus
+                            margin="dense"
+                            id="event_name"
+                            label="Event Name"
+                            fullWidth
+                            onChange={(e) => setCustomEventName(e.target.value)}
+                        /> : ""}
+                        <Fragment>
+                            <KeyboardDatePicker
+                                autoOk
+                                variant="inline"
+                                label="Volunteer Date"
+                                format="MM/dd/yyyy"
+                                value={date}
+                                InputAdornmentProps={{ position: "end" }}
+                                fullWidth
+                                onChange={date => setDate(date)}
+                            />
+                        </Fragment>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="hours"
+                            label="Role"
+                            helperText="Describe what you did as a volunteer."
+                            fullWidth
+                            onChange={(e) => setRole(e.target.value)}
+                        />
+                        <br />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="hours"
+                            label="Volunteer Hours"
+                            helperText="Include preparation, training, event, meeting times etc."
+                            fullWidth
+                            type="number"
+                            onChange={(event) => handleHoursChange(event)}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="comments"
+                            label="Comments"
+                            fullWidth
+                            onChange={(e) => setComments(e.target.value)}
+                        />
+                        <Typography variant="body1">
+                            {error}
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={addEvent} color="primary">
+                            Add
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </MuiPickersUtilsProvider>
         </div >
     )
 }
