@@ -244,19 +244,21 @@ export default function Portfolio({ events, log, updateLog }) {
                             </Select>
                         </FormControl>
                         <br /><br />
-                        {eventName === "Other" ? <TextField
+                        {eventName === "Other" ? <span><TextField
                             autoFocus
                             margin="dense"
                             id="event_name"
                             label="Event Name"
                             fullWidth
                             onChange={(e) => setCustomEventName(e.target.value)}
-                        /> : ""}
+                        /><br /><br /></span> : ""}
                         <Fragment>
                             <KeyboardDatePicker
                                 autoOk
+                                margin="dense"
                                 variant="inline"
                                 label="Volunteer Date"
+                                helperText="Date of JA volunteering event."
                                 format="MM/dd/yyyy"
                                 value={date}
                                 InputAdornmentProps={{ position: "end" }}
