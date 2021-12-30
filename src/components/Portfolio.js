@@ -94,6 +94,11 @@ export default function Portfolio({ events, log, updateLog }) {
             event = customEventName;
         }
 
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let year = date.getFullYear();
+        let dateFormat = month + "/" + day + "/" + year;
+
         let response = await request({
             type: "POST",
             path: "log/add/", // change to any user
@@ -103,7 +108,7 @@ export default function Portfolio({ events, log, updateLog }) {
                 role: role,
                 hours: hours,
                 comments: comments,
-                date: date
+                date: dateFormat
             }
         });
 
