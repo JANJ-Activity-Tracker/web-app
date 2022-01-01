@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     image: {
         marginTop: "10px",
         minWidth: "100px",
-        maxWidth: "20vw",
+        maxWidth: "500px",
         maxHeight: "200px"
     },
 }));

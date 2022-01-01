@@ -20,7 +20,6 @@ export const requestRegister = async (firstname, lastname, email, grad_year, sch
         headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest",
-            'Authorization': `Token 31a33bf7d80ee9b5e5b0749ba4d2563d5496c5e9`,
         },
     });
 

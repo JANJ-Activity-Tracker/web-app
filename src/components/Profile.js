@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Grid, IconButton, makeStyles, TextField, Typography } from "@material-ui/core";
+import { Button, Grid, IconButton, Paper, makeStyles, TextField, Typography } from "@material-ui/core";
 import { styled } from '@mui/material/styles';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { formRequest, request } from "../util";
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: "30px",
         paddingLeft: "20px",
         paddingRight: "20px",
-        paddingBottom: "10px",
+        paddingBottom: "30px",
         borderRadius: "20px",
         height: "100%",
     },
@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
     text: {
         color: "white",
     },
+    paper: {
+        borderRadius: "20px"
+    }
 }));
 
 export default function Profile({ profile, updateProfile, profileImage, updateProfileImage }) {
@@ -119,22 +122,25 @@ export default function Profile({ profile, updateProfile, profileImage, updatePr
 
     return (
         <div >
+
             <Grid container
                 direction="row"
                 justifyContent="center"
                 alignItems="stretch"
                 spacing={3}
                 className={classes.container}>
+
                 <Grid item xs={10}>
                     <div >
                         <Typography variant="h3" >Edit Profile</Typography>
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={5} xl={5}>
-                    <div className={classes.box}>
-                        <Typography variant="h6" >Personal Information</Typography>
-                        {console.log(profile.imageFile)}
-                        {/* <img src={imageFile} className={classes.image} />
+                    <Paper className={classes.paper}>
+                        <div className={classes.box}>
+                            <Typography variant="h6" >Personal Information</Typography>
+                            {console.log(profile.imageFile)}
+                            {/* <img src={imageFile} className={classes.image} />
                         <br />
                         <label htmlFor="icon-button-file">
                             <Input accept="image/*" id="icon-button-file" type="file" onChange={handleUploadClick} />
@@ -142,28 +148,30 @@ export default function Profile({ profile, updateProfile, profileImage, updatePr
                                 <PhotoCamera />
                             </IconButton>
                         </label> */}
-                        <br /><br /><br />
-                        <form autoComplete="off">
-                            <TextField id="standard-basic" defaultValue={firstname} label="First Name" className={classes.input} onChange={(e) => setFirstname(e.target.value)} />
-                            <br />
-                            <TextField id="standard-basic" defaultValue={lastname} label="Last Name" className={classes.input} onChange={(e) => setLastname(e.target.value)} />
-                            <br />
-                            <TextField id="standard-basic" defaultValue={gradYear} label="High School Graduation Year" className={classes.input} onChange={(e) => setGradYear(e.target.value)} />
-                            <br />
-                            <TextField id="standard-basic" defaultValue={school} label="School" className={classes.input} onChange={(e) => setSchool(e.target.value)} />
-                            <br />
-                            <TextField id="standard-basic" defaultValue={township} label="Township" className={classes.input} onChange={(e) => setTownship(e.target.value)} />
-                            <br />
-                            <Typography variant="body1">
-                                {error}
-                            </Typography>
-                            <br />
-                            <Button variant="contained" color="secondary" className={classes.button} onClick={editProfile}>
-                                Save
-                            </Button>
-                        </form>
-                    </div>
+                            <br /><br /><br />
+                            <form autoComplete="off">
+                                <TextField id="standard-basic" defaultValue={firstname} label="First Name" className={classes.input} onChange={(e) => setFirstname(e.target.value)} />
+                                <br />
+                                <TextField id="standard-basic" defaultValue={lastname} label="Last Name" className={classes.input} onChange={(e) => setLastname(e.target.value)} />
+                                <br />
+                                <TextField id="standard-basic" defaultValue={gradYear} label="High School Graduation Year" className={classes.input} onChange={(e) => setGradYear(e.target.value)} />
+                                <br />
+                                <TextField id="standard-basic" defaultValue={school} label="School" className={classes.input} onChange={(e) => setSchool(e.target.value)} />
+                                <br />
+                                <TextField id="standard-basic" defaultValue={township} label="Township" className={classes.input} onChange={(e) => setTownship(e.target.value)} />
+                                <br />
+                                <Typography variant="body1">
+                                    {error}
+                                </Typography>
+                                <br />
+                                <Button variant="contained" color="secondary" className={classes.button} onClick={editProfile}>
+                                    Save
+                                </Button>
+                            </form>
+                        </div>
+                    </Paper>
                 </Grid>
+
             </Grid>
         </div >
     )

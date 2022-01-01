@@ -10,7 +10,6 @@ import { request } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: "white",
         height: "100vh",
         width: "100vw",
         zIndex: 0,
@@ -52,7 +51,7 @@ export default function Dashboard({ page, setPage }) {
     };
 
     useEffect(() => {
-        if (Object.keys(profile).length !== 0) {
+        if (profile.first_name !== undefined) {
             const interval = setInterval(updateProfile, 300000);
             return () => {
                 clearInterval(interval);

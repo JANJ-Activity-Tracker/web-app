@@ -220,7 +220,7 @@ export default function Portfolio({ events, log, updateLog }) {
                     actions={actionsMemo}
                 />
                 <Dialog open={openDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Add New Event</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Add New Entry</DialogTitle>
                     <DialogContent>
                         <FormControl fullWidth>
                             <InputLabel id="event_name">Event Name</InputLabel>

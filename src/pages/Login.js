@@ -4,10 +4,8 @@ import { requestLogin } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.primary.main,
         height: "100%",
         width: "100%",
-        zIndex: 0,
     },
     image: {
         width: "500px",
@@ -81,7 +79,7 @@ export default function Login({ setPage, setToken }) {
     }
 
     return (
-        <div align="center" className={classes.root}>
+        <div align="center" >
             <Paper className={classes.paper}>
                 <img src="/JANJ-logo.png" className={classes.image} />
                 <Typography variant="h4" className={classes.title}>
