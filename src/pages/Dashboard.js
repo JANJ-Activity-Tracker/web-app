@@ -39,6 +39,7 @@ export default function Dashboard({ page, setPage }) {
     const [events, setEvents] = useState({});
     const [log, setLog] = useState({});
     const [profile, setProfile] = useState({});
+    const [profileImage, setProfileImage] = useState({});
 
     // User profile 
     const updateProfile = async () => {
@@ -61,6 +62,29 @@ export default function Dashboard({ page, setPage }) {
             updateProfile();
         }
     })
+
+    // User profile image
+    const updateProfileImage = async () => {
+        let response = await request({
+            type: "GET",
+            path: `profile-image/${localStorage.getItem("email")}` // change to any user
+        })
+        setProfile(response);
+        console.log(response);
+    };
+
+    useEffect(() => {
+        if (Object.keys(profile).length !== 0) {
+            const interval = setInterval(updateProfileImage, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else {
+            updateProfileImage();
+        }
+    })
+
 
     // JANJ events
     const updateEvents = async () => {
@@ -139,7 +163,7 @@ export default function Dashboard({ page, setPage }) {
                         </div>
                     </Grid>
                 </Grid>
-                : <Profile profile={profile} updateProfile={updateProfile} />
+                : <Profile profile={profile} updateProfile={updateProfile} profileImage={profileImage} updateProfileImage={updateProfileImage} />
             }
             <br /><br /><br />
         </div>

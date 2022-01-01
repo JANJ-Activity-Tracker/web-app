@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Grid, makeStyles, Typography } from "@material-ui/core";
 import DataTable from "react-data-table-component";
+import { URL } from "../constants";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,7 +25,13 @@ const useStyles = makeStyles((theme) => ({
     },
     text: {
         color: "white"
-    }
+    },
+    image: {
+        marginTop: "10px",
+        minWidth: "100px",
+        maxWidth: "20vw",
+        maxHeight: "200px"
+    },
 }));
 
 export default function UpcomingEvents({ events }) {
@@ -70,7 +77,7 @@ export default function UpcomingEvents({ events }) {
         return (
             <div className={classes.root}>
                 <Grid container className={classes.container}>
-                    <Grid item align="left" xs={12}>
+                    <Grid item align="left" xs={6}>
                         <Typography variant="h6" >
                             {data.event_name}
                         </Typography>
@@ -82,19 +89,22 @@ export default function UpcomingEvents({ events }) {
                             End: {data.end_datetime} <br /><br />
                             {data.contact_name !== "" && data.contact_name !== undefined ?
                                 "JA contact: " + data.contact_name
-                                : (data.contact_email !== "" && data.contact_email !== undefined) || (data.contact_number != "" && data.contact_number !== undefined)
+                                : (data.contact_email !== "" && data.contact_email !== undefined) || (data.contact_number !== "" && data.contact_number !== undefined)
                                     ? "Contact: " : ""}
-                            {(data.contact_email !== "" && data.contact_email !== undefined) || (data.contact_number != "" && data.contact_number !== undefined) ? <br /> : ""}
+                            {(data.contact_email !== "" && data.contact_email !== undefined) || (data.contact_number !== "" && data.contact_number !== undefined) ? <br /> : ""}
                             {data.contact_email !== "" && data.contact_email !== undefined ? data.contact_email : ""}
-                            {(data.contact_email !== "" && data.contact_email !== undefined) && (data.contact_number != "" && data.contact_number !== undefined) ? <br /> : ""}
+                            {(data.contact_email !== "" && data.contact_email !== undefined) && (data.contact_number !== "" && data.contact_number !== undefined) ? <br /> : ""}
                             {data.contact_number !== "" && data.contact_number !== undefined ? data.contact_number : ""}
-                            {(data.contact_email !== "" && data.contact_email !== undefined) || (data.contact_number != "" && data.contact_number !== undefined) ? <br /> : ""}
+                            {(data.contact_email !== "" && data.contact_email !== undefined) || (data.contact_number !== "" && data.contact_number !== undefined) ? <br /> : ""}
                         </Typography>
                         {data.link !== "" && data.link !== undefined ?
                             <Grid item>
                                 <br />
                                 <Button variant="contained" color="secondary" href={data.link}>More Information</Button>
                             </Grid> : ""}
+                    </Grid>
+                    <Grid item xs={6}>
+                        {data.image ? <img src={URL + data.image} className={classes.image} /> : ""}
                     </Grid>
                 </Grid>
             </div>

@@ -63,6 +63,7 @@ export const request = async ({ type: reqType, path: url, body: body }) => {
                 "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest",
                 'Authorization': `Token ${localStorage.getItem('token')}`,
+                'Accept': 'application/json'
             },
         });
     }
@@ -74,10 +75,47 @@ export const request = async ({ type: reqType, path: url, body: body }) => {
                 "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest",
                 'Authorization': `Token ${localStorage.getItem('token')}`,
+                'Accept': 'application/json'
             },
         });
     }
-
     var response = await data.json();
     return response;
+}
+
+export const formRequest = async ({ type: reqType, path: url, body: body }) => {
+    let type = reqType ? reqType : body ? "POST" : "GET";
+    let req = { method: type };
+    let data;
+
+    if (reqType === "POST" || reqType === "PATCH") {
+        if (body) {
+            req.body = body;
+        }
+
+        console.log(req.body);
+
+        data = await fetch(`${URL}/${url}`, {
+            ...req,
+            // token authentication 
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "X-Requested-With": "XMLHttpRequest",
+                'Authorization': `Token ${localStorage.getItem('token')}`,
+            },
+        });
+    }
+    else {
+        data = await fetch(`${URL}/${url}`, {
+            ...req,
+            // token authentication 
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "X-Requested-With": "XMLHttpRequest",
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+        });
+    }
+    // var response = await data.json();
+    return data;
 }

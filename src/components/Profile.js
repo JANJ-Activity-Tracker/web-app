@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Grid, IconButton, makeStyles, TextField, Typography } from "@material-ui/core";
 import { styled } from '@mui/material/styles';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { request } from "../util";
+import { formRequest, request } from "../util";
 import { URL } from "../constants";
 
 const Input = styled('input')({
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Profile({ profile, updateProfile }) {
+export default function Profile({ profile, updateProfile, profileImage, updateProfileImage }) {
     const classes = useStyles();
     const [firstname, setFirstname] = useState(profile.first_name || "");
     const [lastname, setLastname] = useState(profile.last_name || "");
@@ -76,6 +76,7 @@ export default function Profile({ profile, updateProfile }) {
     };
 
     async function editProfile() {
+        editProfileImage();
         let email = localStorage.getItem("email");
         console.log(image);
         let response = await request({
@@ -86,12 +87,33 @@ export default function Profile({ profile, updateProfile }) {
                 last_name: lastname,
                 grad_year: gradYear,
                 school: school,
-                township: township,
-                profile_image: image
+                township: township
             }
         })
 
         updateProfile();
+        console.log(response);
+    }
+
+    async function editProfileImage() {
+        let email = localStorage.getItem("email");
+        console.log(image);
+        const data = new FormData();
+        data.append("profile_image", image);
+        data.append("user_email", email);
+
+        let response = fetch(`${URL}/edit-profile-image/${email}/`, {
+            method: "PATCH",
+            body: data,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                "X-Requested-With": "XMLHttpRequest",
+                'Authorization': `Token ${localStorage.getItem('token')}`,
+            }
+        });
+
+        console.log(image);
+        updateProfileImage();
         console.log(response);
     }
 
