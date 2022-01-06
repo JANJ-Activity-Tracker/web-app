@@ -17,6 +17,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import DataTable from "react-data-table-component";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { request } from "../util";
+import { BACKEND_URL } from "../constants";
 
 const useStyles = makeStyles((theme) => ({
     text: {
@@ -26,24 +27,32 @@ const useStyles = makeStyles((theme) => ({
         margin: "20px"
     },
     input: {
-        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        backgroundColor: "rgba(255, 255, 255)",
         marginLeft: "-5px",
         paddingLeft: "5px",
-        minWidth: "300px"
+        minWidth: "300px",
+        marginTop: "17px",
+    },
+    dropdown: {
+        marginLeft: "10px",
+        marginTop: "25px",
+        backgroundColor: "rgba(255, 255, 255)",
+        minWidth: "200px"
     },
 }));
 
 export default function AdminPortfolio() {
     const classes = useStyles();
     const [log, setLog] = useState({});
-    const [email, setEmail] = useState("");
+    const [searchKey, setSearchKey] = useState("");
+    const [searchBy, setSearchBy] = useState("user_email")
 
     // User volunteer and participation log 
     const updateLog = async () => {
-        if (email != "") {
+        if (searchBy === "user_email" && searchKey != "") {
             let response = await request({
                 type: "GET",
-                path: `log/${email}` // change to any user
+                path: `log/${searchKey}` // change to any user
             })
             if (response) {
                 setLog(response);
@@ -53,10 +62,29 @@ export default function AdminPortfolio() {
             }
             console.log(response);
         }
-        console.log(email);
+        else if (searchBy === "event_name" && searchKey != "") {
+            let response = await request({
+                type: "GET",
+                path: `event-log/${searchKey}` // change to any user
+            })
+            if (response) {
+                setLog(response);
+            }
+            else {
+                setLog({});
+            }
+            console.log(response);
+        }
+        console.log(searchKey);
     };
 
     const columns = [
+        {
+            name: "Volunter Email",
+            selector: "user_email",
+            sortable: true,
+            grow: 1.5
+        },
         {
             name: "Event Name",
             selector: "event_name",
@@ -118,22 +146,32 @@ export default function AdminPortfolio() {
 
     // Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
     async function downloadCSV() {
-        console.log(email);
-        let array = await request({
-            type: "GET",
-            path: `log/${email}`
-        })
 
-        let profile = await request({
-            type: "GET",
-            path: `profile/${email}`
-        })
+        let array;
+        let profile;
+        if (searchBy === "user_email") {
+            array = await request({
+                type: "GET",
+                path: `log/${searchKey}`
+            })
+            profile = await request({
+                type: "GET",
+                path: `profile/${searchKey}`
+            })
+        }
+        else {
+            array = await request({
+                type: "GET",
+                path: `event-log/${searchKey}`
+            })
+        }
+
 
         const link = document.createElement('a');
         let csv = convertArrayOfObjectsToCSV(array);
         if (csv == null) return;
 
-        const filename = profile.first_name + ' ' + profile.last_name + ' JANJ Volunteer Log.csv';
+        const filename = searchBy === "user_email" ? profile.first_name + ' ' + profile.last_name + ' JANJ Volunteer Log.csv' : searchKey + ' JANJ Volunteer Log.csv';
 
         if (!csv.match(/^data:text\/csv/i)) {
             csv = `data:text/csv;charset=utf-8,${csv}`;
@@ -145,7 +183,7 @@ export default function AdminPortfolio() {
     }
 
     const Export = ({ onExport }) => <Button onClick={e => onExport(e.target.value)}>Export</Button>;
-    const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV()} />, [email]);
+    const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV()} />, [searchKey, searchBy]);
 
     return (
         <div >
@@ -154,16 +192,29 @@ export default function AdminPortfolio() {
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="email"
-                    label="Student email"
+                    id="search_key"
                     color="secondary"
-                    value={email}
+                    value={searchKey}
                     InputProps={{
                         className: classes.input
                     }}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setSearchKey(e.target.value)}
                 />
+                <FormControl className={classes.dropdown}>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={searchBy}
+                        color="secondary"
+                        margin="dense"
+                        onChange={(e) => setSearchBy(e.target.value)}
+                    >
+                        <MenuItem value={"user_email"}>Volunteer Email</MenuItem>
+                        <MenuItem value={"event_name"}>Event</MenuItem>
+                    </Select>
+                </FormControl>
                 <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => updateLog(e)}>Search</Button>
+                {!(Object.keys(log).length === 0 || log.length == 0 || log[0] === undefined || log[0] === null) ? <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/log/?q=" + searchKey.replace("@", "%40").replaceAll(" ", "+").replaceAll("_", "+")}>Manage Volunteer Logs</Button> : ""}
                 <br /><br />
                 <DataTable
                     className={classes.table}
