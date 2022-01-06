@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Login({ setPage, setToken }) {
+export default function Login({ setPage, setToken, setIsAdmin }) {
     const classes = useStyles();
     const [email, setEmail] = useState(""); // same as username
     const [password, setPassword] = useState("");
@@ -63,7 +63,16 @@ export default function Login({ setPage, setToken }) {
         if (response && response.token) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('email', email);
+
             setError("");
+            if (response.is_admin) {
+                setIsAdmin(true);
+                localStorage.setItem('is_admin', true);
+            }
+            else {
+                setIsAdmin(false);
+                localStorage.setItem('is_admin', false);
+            }
             setPage("dashboard");
             setToken(localStorage.getItem("token"));
         }

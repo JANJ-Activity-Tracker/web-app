@@ -65,7 +65,7 @@ export default function Profile({ profile, updateProfile, profileImage, updatePr
     const [password2, setPassword2] = useState("");
     const [error, setError] = useState("");
     const [image, setImage] = useState(null);
-    const [imageFile, setImageFile] = useState(URL + profile.profile_image || "/profile_default.png");
+    const [imageFile, setImageFile] = useState(URL + "/" + profile.profile_image || "/profile_default.png");
 
     const handleUploadClick = event => {
         var file = event.target.files[0];
@@ -141,13 +141,13 @@ export default function Profile({ profile, updateProfile, profileImage, updatePr
                             <Typography variant="h6" >Personal Information</Typography>
                             {console.log(profile.imageFile)}
                             {/* <img src={imageFile} className={classes.image} />
-                        <br />
-                        <label htmlFor="icon-button-file">
-                            <Input accept="image/*" id="icon-button-file" type="file" onChange={handleUploadClick} />
-                            <IconButton color="primary" aria-label="upload picture" component="span">
-                                <PhotoCamera />
-                            </IconButton>
-                        </label> */}
+                            <br />
+                            <label htmlFor="icon-button-file">
+                                <Input accept="image/*" id="icon-button-file" type="file" onChange={handleUploadClick} />
+                                <IconButton color="primary" aria-label="upload picture" component="span">
+                                    <PhotoCamera />
+                                </IconButton>
+                            </label> */}
                             <br /><br /><br />
                             <form autoComplete="off">
                                 <TextField id="standard-basic" defaultValue={firstname} label="First Name" className={classes.input} onChange={(e) => setFirstname(e.target.value)} />

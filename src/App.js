@@ -7,6 +7,7 @@ import '@fontsource/roboto';
 import theme from './styles.js';
 import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from "@material-ui/core";
+import AdminDashboard from './pages/AdminDashboard';
 
 const useStyles = makeStyles((theme) => ({
   bg1: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const [page, setPage] = useState("dashboard");
   const [token, setToken] = useState(localStorage.getItem("token") || null)
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("is_admin") === "true" ? true : false);
   const classes = useStyles();
 
   return (
@@ -52,8 +54,9 @@ function App() {
       <img src="/bg3.png" className={classes.bg3} />
       <div className={classes.dashboard}>
         {page === "register" ? <Register setPage={setPage} setToken={setToken} /> :
-          (page === "dashboard" || page === "profile") && token ? <Dashboard page={page} setPage={setPage} /> :
-            <Login setPage={setPage} setToken={setToken} />}
+          (page === "dashboard" || page === "profile") && token && !isAdmin ? <Dashboard page={page} setPage={setPage} /> :
+            (page === "dashboard") && token && isAdmin ? <AdminDashboard page={page} setPage={setPage} /> :
+              <Login setPage={setPage} setToken={setToken} setIsAdmin={setIsAdmin} />}
       </div>
     </ThemeProvider>
   );

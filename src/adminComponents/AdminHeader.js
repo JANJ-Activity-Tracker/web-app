@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Header({ setPage }) {
+export default function AdminHeader({ setPage }) {
     const classes = useStyles();
     const [menuSelect, setMenuSelect] = useState(null);
     const menuOpen = Boolean(menuSelect);
@@ -51,7 +51,7 @@ export default function Header({ setPage }) {
             <AppBar position="static">
                 <Toolbar>
                     <img src="/JANJ-logo-white.png" className={classes.logo} />
-                    <Typography variant="h5" gutterBottom className={classes.title}>JANJ Activity Tracker</Typography>
+                    <Typography variant="h5" gutterBottom className={classes.title}>JANJ Activity Tracker Admin Dashboard</Typography>
                     <IconButton
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
@@ -75,8 +75,7 @@ export default function Header({ setPage }) {
                         open={menuOpen}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={() => setPage("dashboard")}>Dashboard</MenuItem>
-                        <MenuItem onClick={() => setPage("profile")}>Edit Profile</MenuItem>
+                        <MenuItem onClick={() => setPage("adminDashboard")}>Dashboard</MenuItem>
                         <MenuItem onClick={logout}>Log Out</MenuItem>
                     </Menu>
                 </Toolbar>
