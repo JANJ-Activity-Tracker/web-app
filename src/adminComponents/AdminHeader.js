@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { AppBar, Avatar, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Avatar, IconButton, makeStyles, Link, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
+import { BACKEND_URL } from "../constants";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,7 +59,7 @@ export default function AdminHeader({ setPage }) {
                         aria-haspopup="true"
                         onClick={handleMenu}
                         className={classes.avatar} >
-                        <Avatar alt="profile" src="/profile_default.png" />
+                        <Avatar alt="profile" src="/menu.png" />
                     </IconButton>
                     <Menu
                         id="menu-appbar"
@@ -75,7 +76,12 @@ export default function AdminHeader({ setPage }) {
                         open={menuOpen}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={() => setPage("adminDashboard")}>Dashboard</MenuItem>
+                        <MenuItem onClick={() => setPage("dashboard")}>Dashboard</MenuItem>
+                        <Link href={BACKEND_URL + "/"} style={{ textDecoration: 'none', color: "black" }}>
+                            <MenuItem>
+                                Manage Database
+                            </MenuItem>
+                        </Link>
                         <MenuItem onClick={logout}>Log Out</MenuItem>
                     </Menu>
                 </Toolbar>

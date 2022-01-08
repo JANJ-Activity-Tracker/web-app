@@ -58,7 +58,7 @@ export default function Header({ setPage }) {
                         aria-haspopup="true"
                         onClick={handleMenu}
                         className={classes.avatar} >
-                        <Avatar alt="profile" src="/profile_default.png" />
+                        <Avatar alt="profile" src="/menu.png" />
                     </IconButton>
                     <Menu
                         id="menu-appbar"

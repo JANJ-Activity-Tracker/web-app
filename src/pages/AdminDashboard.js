@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import AdminHeader from "../adminComponents/AdminHeader";
-import ProfileSummary from "../components/ProfileSummary";
 import AdminUpcomingEvents from "../adminComponents/AdminUpcomingEvents";
 import AdminPortfolio from "../adminComponents/AdminPortfolio";
-import Stats from "../components/Stats";
-import Profile from "../components/Profile";
+import AdminAccounts from "../adminComponents/AdminAccounts";
+import AdminLeaderboard from "../adminComponents/AdminLeaderboard";
 import { Grid, makeStyles } from "@material-ui/core";
 import { request } from "../util";
 
@@ -36,53 +35,30 @@ const useStyles = makeStyles((theme) => ({
 export default function AdminDashboard({ page, setPage }) {
     const classes = useStyles();
     const [events, setEvents] = useState({});
-    const [profile, setProfile] = useState({});
-    const [profileImage, setProfileImage] = useState({});
+    const [accounts, setAccounts] = useState({});
+    const [leaderboard, setLeaderboard] = useState({});
 
     // User profile 
-    const updateProfile = async () => {
+    const updateLeaderboard = async () => {
         let response = await request({
             type: "GET",
-            path: `profile/${localStorage.getItem("email")}` // change to any user
+            path: `leaderboard/` // change to any user
         })
-        setProfile(response);
+        setLeaderboard(response);
         console.log(response);
     };
 
     useEffect(() => {
-        if (profile.first_name !== undefined) {
-            const interval = setInterval(updateProfile, 300000);
+        if (Object.keys(leaderboard).length !== 0) {
+            const interval = setInterval(updateLeaderboard, 300000);
             return () => {
                 clearInterval(interval);
             }
         }
         else {
-            updateProfile();
+            updateLeaderboard();
         }
     })
-
-    // User profile image
-    const updateProfileImage = async () => {
-        let response = await request({
-            type: "GET",
-            path: `profile-image/${localStorage.getItem("email")}` // change to any user
-        })
-        setProfile(response);
-        console.log(response);
-    };
-
-    useEffect(() => {
-        if (Object.keys(profile).length !== 0) {
-            const interval = setInterval(updateProfileImage, 300000);
-            return () => {
-                clearInterval(interval);
-            }
-        }
-        else {
-            updateProfileImage();
-        }
-    })
-
 
     // JANJ events
     const updateEvents = async () => {
@@ -105,35 +81,59 @@ export default function AdminDashboard({ page, setPage }) {
         }
     })
 
+    // User accounts
+    const updateAccounts = async () => {
+        let response = await request({
+            type: "GET",
+            path: "all-accounts/"
+        })
+        console.log(response);
+        setAccounts(response);
+    }
+
+    useEffect(() => {
+        if (Object.keys(events).length !== 0) {
+            const interval = setInterval(updateAccounts, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else {
+            updateAccounts();
+        }
+    })
+
     return (
         <div align="center" className={classes.root}>
             <AdminHeader setPage={setPage} />
-            {page === "dashboard" ?
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="stretch"
-                    spacing={3}
-                    className={classes.container}>
-                    {/* <Grid item xs={12} sm={12} md={6} lg={5} xl={5} className={classes.grid}>
-                        <div className={classes.box}>
-                            <Stats />
-                        </div>
-                    </Grid> */}
-                    <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
-                        <div className={classes.box}>
-                            <AdminPortfolio />
-                        </div>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
-                        <div className={classes.box}>
-                            <AdminUpcomingEvents events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming === true)) : events} />
-                        </div>
-                    </Grid>
+            <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="stretch"
+                spacing={3}
+                className={classes.container}>
+                <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
+                    <div className={classes.box}>
+                        <AdminPortfolio />
+                    </div>
                 </Grid>
-                : <Profile profile={profile} updateProfile={updateProfile} profileImage={profileImage} updateProfileImage={updateProfileImage} />
-            }
+                <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
+                    <div className={classes.box}>
+                        <AdminUpcomingEvents events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming === true)) : events} />
+                    </div>
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
+                    <div className={classes.box}>
+                        <AdminAccounts accounts={accounts} />
+                    </div>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={5} xl={5} className={classes.grid}>
+                    <div className={classes.box}>
+                        <AdminLeaderboard leaderboard={leaderboard} setLeaderboard={setLeaderboard} />
+                    </div>
+                </Grid>
+            </Grid>
             <br /><br /><br />
         </div>
     )

@@ -113,7 +113,7 @@ export default function AdminUpcomingEvents({ events }) {
 
     return (
         <div>
-            <Typography variant="h4" className={classes.text}>JANJ Events</Typography>
+            <Typography variant="h4" className={classes.text}>JANJ Upcoming Events</Typography>
             <br />
             <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/event/"}>Manage Events</Button>
             <br /><br /><br />

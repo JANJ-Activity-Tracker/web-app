@@ -12,13 +12,12 @@ import { requestRegister } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.primary.main,
         height: "100%",
         width: "100%",
         zIndex: 0,
     },
     image: {
-        width: "500px",
+        width: "450px",
         [theme.breakpoints.down('sm')]: {
             width: "200px"
         },
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         transform: "translate(-50%, -50%)",
         width: "fit-content",
         padding: "30px",
-        paddingBottom: "50px",
+        paddingBottom: "30px",
         boxShadow: "2px 2px 10px 0",
         [theme.breakpoints.down('xs')]: {
             minWidth: "200px",
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     title: {
-        marginTop: "50px",
+        marginTop: "20px",
         marginBottom: "20px",
         [theme.breakpoints.down('sm')]: {
             fontSize: 25,
