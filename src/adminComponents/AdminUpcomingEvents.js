@@ -1,7 +1,9 @@
-import React from "react";
+import { React, useState } from "react";
 import { Button, Grid, makeStyles, Typography } from "@material-ui/core";
 import DataTable from "react-data-table-component";
 import { URL, BACKEND_URL } from "../constants";
+import AddEvent from "../adminComponents/AddEvent";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "30px"
     },
     grid: {
-        marginBottom: "20px"
+        marginBottom: "20px",
     },
     text: {
         color: "white"
@@ -32,10 +34,18 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "500px",
         maxHeight: "200px"
     },
+    button: {
+        marginRight: "20px",
+    }
 }));
 
 export default function AdminUpcomingEvents({ events }) {
     const classes = useStyles();
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const columns = [
         {
@@ -115,7 +125,9 @@ export default function AdminUpcomingEvents({ events }) {
         <div>
             <Typography variant="h4" className={classes.text}>JANJ Upcoming Events</Typography>
             <br />
-            <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/event/"}>Manage Events</Button>
+            <Button className={classes.button} variant="contained" color="secondary" href={BACKEND_URL + "/core/event/"}>Manage Events</Button>
+            <Button onClick={handleShow} variant="contained" color="secondary" >Add Event</Button>
+            <AddEvent show={show} handleClose={handleClose} />
             <br /><br /><br />
             <DataTable
                 columns={columns}

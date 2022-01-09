@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: "20px"
     },
     grid: {
-        marginBottom: "20px"
+        marginBottom: "20px",
     }
 }));
 
