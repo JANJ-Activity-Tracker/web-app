@@ -5,12 +5,17 @@ const useStyles = makeStyles((theme) => ({
     root: {
         position: "relative",
         align: "left",
-        height: "100%"
+        height: "100%",
+        minHeight: "300px",
+        [theme.breakpoints.down('sm')]: {
+            minHeight: "250px"
+        },
     },
     body: {
         position: "absolute",
         top: "50%",
-        transform: "translate(0, -50%)",
+        left: "50%",
+        transform: "translate(-50%, -40%)",
     },
     text: {
         color: "white",
@@ -18,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
     bodyText: {
         color: "white",
         [theme.breakpoints.down('md')]: {
-            fontSize: 45
-        },
-        [theme.breakpoints.down('sm')]: {
-            fontSize: 40
-        },
-        [theme.breakpoints.down('xs')]: {
             fontSize: 30
         },
+        [theme.breakpoints.down('xs')]: {
+            fontSize: 20
+        },
+    },
+    divider: {
+        color: "white"
     }
 }));
 
@@ -55,12 +60,15 @@ export default function Stats({ log }) {
     })
 
     return (
-        <div className={classes.root}>
-            <div align="left" >
-                <Typography variant="h2" className={classes.text}>Stats</Typography>
-                <br /><br />
-                <Typography variant="h3" className={classes.bodyText}>Number of Events: {numEvents} </Typography>
-                <Typography variant="h3" className={classes.bodyText}>Total Hours: {hours} </Typography>
+        <div className={classes.root} align="center">
+            <Typography variant="h4" className={classes.text}>Stats</Typography>
+            <br />
+            <div align="left" className={classes.body} >
+                <Typography variant="h5" className={classes.bodyText}>Number of Events: </Typography>
+                <Typography variant="h3" className={classes.bodyText}> <b>{numEvents} </b></Typography>
+                <hr class="solid" className={classes.divider}></hr>
+                <Typography variant="h5" className={classes.bodyText}>Total Hours: </Typography>
+                <Typography variant="h3" className={classes.bodyText}><b>{hours} </b></Typography>
             </div>
         </div>
     )
