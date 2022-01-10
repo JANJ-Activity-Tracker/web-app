@@ -10,10 +10,37 @@ const useStyles = makeStyles((theme) => ({
         height: "100%"
     },
     image: {
-        width: "150px"
+        width: "150px",
+        [theme.breakpoints.down('md')]: {
+            width: "140px"
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: "100px"
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: "75px"
+        },
     },
     text: {
         color: "white",
+        [theme.breakpoints.down('md')]: {
+            fontSize: 20
+        },
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 12
+        },
+    },
+    nameText: {
+        color: "white",
+        [theme.breakpoints.down('md')]: {
+            fontSize: 35
+        },
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 30
+        },
+        [theme.breakpoints.down('xs')]: {
+            fontSize: 15
+        },
     },
 }));
 
@@ -28,7 +55,7 @@ export default function ProfileSummary({ profile }) {
                 </Grid>
                 <Grid item xs={1}></Grid>
                 <Grid item xs={6} align="left">
-                    <Typography variant="h3" className={classes.text}>{profile.first_name + " " + profile.last_name}</Typography>
+                    <Typography variant="h3" className={classes.nameText}>{profile.first_name + " " + profile.last_name}</Typography>
                     <Typography variant="h5" className={classes.text}>Class of {profile.grad_year}</Typography>
                     <Typography variant="h5" className={classes.text}>{profile.school}</Typography>
                     <Typography variant="h5" className={classes.text}>{profile.township}</Typography>
