@@ -1,3 +1,4 @@
-// export const URL = "https://sheltered-river-93482.herokuapp.com/https://janj-activity-tracker-dev.herokuapp.com/"; // DEV
-export const URL2 = "https://janj-activity-tracker-dev.herokuapp.com";
-export const URL = "https://sheltered-river-93482.herokuapp.com/https://janj-activity-tracker.herokuapp.com/" // PROD
+const VERSION = "PROD"; // or PROD
+
+export const URL = VERSION === "DEV" ? "https://janj-activity-tracker-dev.herokuapp.com" : "https://janj-activity-tracker.herokuapp.com";
+export const BACKEND_URL = VERSION === "DEV" ? "https://janj-activity-tracker-dev.herokuapp.com/admin" : "https://janj-activity-tracker.herokuapp.com/admin";

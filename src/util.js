@@ -1,25 +1,25 @@
 import { URL } from "./constants";
 
-export const requestRegister = async (firstname, lastname, email, grade, school, township, password, password2) => {
+export const requestRegister = async (firstname, lastname, email, grad_year, school, township, password, password2) => {
     let request = { method: "POST" };
     let info = {
         first_name: firstname,
         last_name: lastname,
         email: email,
-        grade: grade,
+        grad_year: grad_year,
         school: school,
         township: township,
         username: email,
         password: password,
-        password2: password2,
-        profile_image: null
+        password2: password2
     }
     request.body = JSON.stringify(info);
-    let data = await fetch(`${URL}register/`, {
+    let data = await fetch(`${URL}/register/`, {
         ...request,
-        headers: new Headers({
+        headers: {
             "Content-Type": "application/json",
-        }),
+            "X-Requested-With": "XMLHttpRequest",
+        },
     });
 
     var response = await data.json();
@@ -33,7 +33,7 @@ export const requestLogin = async (username, password) => {
         password: password
     }
     request.body = JSON.stringify(info);
-    let data = await fetch(`${URL}login/`, {
+    let data = await fetch(`${URL}/login/`, {
         ...request,
         headers: new Headers({
             "Content-Type": "application/json",
@@ -56,17 +56,64 @@ export const request = async ({ type: reqType, path: url, body: body }) => {
 
         data = await fetch(`${URL}/${url}`, {
             ...req,
-            headers: new Headers({
+            // token authentication 
+            headers: {
                 "Content-Type": "application/json",
-            }),
+                "X-Requested-With": "XMLHttpRequest",
+                'Authorization': `Token ${localStorage.getItem('token')}`,
+                'Accept': 'application/json'
+            },
         });
     }
     else {
         data = await fetch(`${URL}/${url}`, {
             ...req,
+            // token authentication 
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                'Authorization': `Token ${localStorage.getItem('token')}`,
+                'Accept': 'application/json'
+            },
         });
     }
-
     var response = await data.json();
     return response;
 }
+
+// export const formRequest = async ({ type: reqType, path: url, body: body }) => {
+//     let type = reqType ? reqType : body ? "POST" : "GET";
+//     let req = { method: type };
+//     let data;
+
+//     if (reqType === "POST" || reqType === "PATCH") {
+//         if (body) {
+//             req.body = body;
+//         }
+
+//         console.log(req.body);
+
+//         data = await fetch(`${URL}/${url}`, {
+//             ...req,
+//             // token authentication 
+//             headers: {
+//                 "Content-Type": "multipart/form-data",
+//                 "X-Requested-With": "XMLHttpRequest",
+//                 'Authorization': `Token ${localStorage.getItem('token')}`,
+//             },
+//         });
+//     }
+//     else {
+//         data = await fetch(`${URL}/${url}`, {
+//             ...req,
+//             // token authentication 
+//             headers: {
+//                 "Content-Type": "multipart/form-data",
+//                 "X-Requested-With": "XMLHttpRequest",
+//                 'Authorization': `Token ${localStorage.getItem('token')}`
+//             },
+//         });
+//     }
+//     // var response = await data.json();
+//     return data;
+// }

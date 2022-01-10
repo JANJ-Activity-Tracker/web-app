@@ -10,7 +10,6 @@ import { request } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: "white",
         height: "100vh",
         width: "100vw",
         zIndex: 0,
@@ -23,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: "20px",
         borderRadius: "20px",
         height: "100%",
+        paddingBottom: "20px"
     },
     container: {
         marginTop: "30px",
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: "20px"
     },
     grid: {
-        marginBottom: "20px"
+        marginBottom: "20px",
     }
 }));
 
@@ -39,6 +39,7 @@ export default function Dashboard({ page, setPage }) {
     const [events, setEvents] = useState({});
     const [log, setLog] = useState({});
     const [profile, setProfile] = useState({});
+    const [profileImage, setProfileImage] = useState({});
 
     // User profile 
     const updateProfile = async () => {
@@ -51,7 +52,7 @@ export default function Dashboard({ page, setPage }) {
     };
 
     useEffect(() => {
-        if (Object.keys(profile).length !== 0) {
+        if (profile.first_name !== undefined) {
             const interval = setInterval(updateProfile, 300000);
             return () => {
                 clearInterval(interval);
@@ -61,6 +62,29 @@ export default function Dashboard({ page, setPage }) {
             updateProfile();
         }
     })
+
+    // User profile image
+    const updateProfileImage = async () => {
+        let response = await request({
+            type: "GET",
+            path: `profile-image/${localStorage.getItem("email")}` // change to any user
+        })
+        setProfile(response);
+        console.log(response);
+    };
+
+    useEffect(() => {
+        if (Object.keys(profile).length !== 0) {
+            const interval = setInterval(updateProfileImage, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else {
+            updateProfileImage();
+        }
+    })
+
 
     // JANJ events
     const updateEvents = async () => {
@@ -128,18 +152,18 @@ export default function Dashboard({ page, setPage }) {
                     <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                         <div className={classes.box}>
                             <Portfolio
-                                events={Object.keys(events).length !== 0 ? events.filter(event => (event.active == true)) : events}
+                                events={Object.keys(events).length !== 0 ? events.filter(event => (event.active === true)) : events}
                                 log={log}
                                 updateLog={updateLog} />
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                         <div className={classes.box}>
-                            <UpcomingEvents events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming == true)) : events} />
+                            <UpcomingEvents events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming === true)) : events} />
                         </div>
                     </Grid>
                 </Grid>
-                : <Profile profile={profile} updateProfile={updateProfile} />
+                : <Profile profile={profile} updateProfile={updateProfile} profileImage={profileImage} updateProfileImage={updateProfileImage} />
             }
             <br /><br /><br />
         </div>

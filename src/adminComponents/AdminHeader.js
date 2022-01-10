@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { AppBar, Avatar, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Avatar, IconButton, makeStyles, Link, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
+import { BACKEND_URL } from "../constants";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Header({ setPage }) {
+export default function AdminHeader({ setPage }) {
     const classes = useStyles();
     const [menuSelect, setMenuSelect] = useState(null);
     const menuOpen = Boolean(menuSelect);
@@ -51,7 +52,7 @@ export default function Header({ setPage }) {
             <AppBar position="static">
                 <Toolbar>
                     <img src="/JANJ-logo-white.png" className={classes.logo} />
-                    <Typography variant="h5" gutterBottom className={classes.title}>JANJ Activity Tracker</Typography>
+                    <Typography variant="h5" gutterBottom className={classes.title}>JANJ Activity Tracker Admin Dashboard</Typography>
                     <IconButton
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
@@ -76,7 +77,11 @@ export default function Header({ setPage }) {
                         onClose={handleClose}
                     >
                         <MenuItem onClick={() => setPage("dashboard")}>Dashboard</MenuItem>
-                        <MenuItem onClick={() => setPage("profile")}>Edit Profile</MenuItem>
+                        <Link href={BACKEND_URL + "/"} style={{ textDecoration: 'none', color: "black" }}>
+                            <MenuItem>
+                                Manage Database
+                            </MenuItem>
+                        </Link>
                         <MenuItem onClick={logout}>Log Out</MenuItem>
                     </Menu>
                 </Toolbar>
