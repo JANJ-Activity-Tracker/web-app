@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal, Form } from 'react-bootstrap'
 import { Button, makeStyles, CircularProgress } from '@material-ui/core'
 import { request } from "../util";
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -72,17 +72,17 @@ export default function AddEvent({ show, handleClose }) {
 			keyboard={false}
 		>
 			<Modal.Header closeButton>
-				<Modal.Title>Add a New Event</Modal.Title>
+				<Modal.Title>Add New Event</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Group >
 					<Form.Label>Event Name: </Form.Label>
 					<Form.Control type="text" onChange={(e) => setEventName(e.target.value)} />
-					<Form.Label>Contact Name: </Form.Label>
+					<Form.Label>JA Contact Name: </Form.Label>
 					<Form.Control type="text" onChange={(e) => setContactName(e.target.value)} />
-					<Form.Label>Contact Email: </Form.Label>
+					<Form.Label>JA Contact Email: </Form.Label>
 					<Form.Control type="text" onChange={(e) => setContactEmail(e.target.value)} />
-					<Form.Label>Contact Number: </Form.Label>
+					<Form.Label>JA Contact Number: </Form.Label>
 					<Form.Control type="text" onChange={(e) => setContactNumber(e.target.value)} />
 					<Form.Label>Event Summary: </Form.Label>
 					<Form.Control type="text" onChange={(e) => setEventSummary(e.target.value)} />
@@ -98,9 +98,9 @@ export default function AddEvent({ show, handleClose }) {
 					<Form.Control type="text" onChange={(e) => setLocation(e.target.value)} />
 					<Form.Label>Link: </Form.Label>
 					<Form.Control type="text" onChange={(e) => setLink(e.target.value)} />
-					<Form.Label>Active?: </Form.Label>
+					<Form.Label>Active: </Form.Label>
 					<Form.Control type="text" onChange={(e) => setActive(e.target.value)} />
-					<Form.Label>Upcoming?: </Form.Label>
+					<Form.Label>Upcoming: </Form.Label>
 					<Form.Control type="text" onChange={(e) => setUpcoming(e.target.value)} />
 				</Form.Group>
 			</Modal.Body>

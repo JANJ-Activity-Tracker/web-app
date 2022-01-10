@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: "20px",
         borderRadius: "20px",
         height: "100%",
+        paddingBottom: "20px"
     },
     container: {
         marginTop: "30px",
