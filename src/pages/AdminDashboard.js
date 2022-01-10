@@ -4,6 +4,7 @@ import AdminUpcomingEvents from "../adminComponents/AdminUpcomingEvents";
 import AdminPortfolio from "../adminComponents/AdminPortfolio";
 import AdminAccounts from "../adminComponents/AdminAccounts";
 import AdminLeaderboard from "../adminComponents/AdminLeaderboard";
+import AdminStats from "../adminComponents/AdminStats";
 import { Grid, makeStyles } from "@material-ui/core";
 import { request } from "../util";
 
@@ -38,8 +39,31 @@ export default function AdminDashboard({ page, setPage }) {
     const [events, setEvents] = useState({});
     const [accounts, setAccounts] = useState({});
     const [leaderboard, setLeaderboard] = useState({});
+    const [stats, setStats] = useState({});
 
-    // User profile 
+    // Admin Stats
+    const updateStats = async () => {
+        let response = await request({
+            type: "GET",
+            path: `admin-stats/`
+        })
+        setStats(response);
+        console.log(response);
+    };
+
+    useEffect(() => {
+        if (Object.keys(stats).length !== 0) {
+            const interval = setInterval(updateStats, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else {
+            updateStats();
+        }
+    })
+
+    // Volunteer Hours Leaderboard  
     const updateLeaderboard = async () => {
         let response = await request({
             type: "GET",
@@ -119,6 +143,16 @@ export default function AdminDashboard({ page, setPage }) {
                         <AdminPortfolio />
                     </div>
                 </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={5} xl={5} className={classes.grid}>
+                    <div className={classes.box}>
+                        <AdminLeaderboard leaderboard={leaderboard} setLeaderboard={setLeaderboard} />
+                    </div>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={5} xl={5} className={classes.grid}>
+                    <div className={classes.box}>
+                        <AdminStats stats={stats} />
+                    </div>
+                </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                     <div className={classes.box}>
                         <AdminUpcomingEvents events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming === true)) : events} />
@@ -127,11 +161,6 @@ export default function AdminDashboard({ page, setPage }) {
                 <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                     <div className={classes.box}>
                         <AdminAccounts accounts={accounts} />
-                    </div>
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={5} xl={5} className={classes.grid}>
-                    <div className={classes.box}>
-                        <AdminLeaderboard leaderboard={leaderboard} setLeaderboard={setLeaderboard} />
                     </div>
                 </Grid>
             </Grid>

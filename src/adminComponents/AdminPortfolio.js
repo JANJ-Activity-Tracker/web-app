@@ -123,23 +123,34 @@ export default function AdminPortfolio() {
         const lineDelimiter = '\n';
 
         const keys = Object.keys(array[0]);
-        const headers = ['User Email', 'Event Name', 'Role', 'Hours', 'Comments', 'Date'];
+        const headers = ['', 'User Email', 'Event Name', 'Role', 'Hours', 'Comments', 'Date'];
 
         result = '';
         result += headers.join(columnDelimiter);
         result += lineDelimiter;
 
+        let total_hours = 0;
+        let entry_ctr = 1;
+
         array.forEach(item => {
             let ctr = 0;
+            result += entry_ctr;
             keys.forEach(key => {
-                if (ctr > 0) result += columnDelimiter;
-
+                result += columnDelimiter;
                 result += item[key];
-
                 ctr++;
+                if (key === 'hours') {
+                    total_hours += item[key];
+                }
             });
+            entry_ctr++;
             result += lineDelimiter;
         });
+
+        result += lineDelimiter;
+        result += "Total Hours: ";
+        result += columnDelimiter;
+        result += total_hours;
 
         return result;
     }
@@ -214,7 +225,10 @@ export default function AdminPortfolio() {
                     </Select>
                 </FormControl>
                 <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => updateLog(e)}>Search</Button>
-                {!(Object.keys(log).length === 0 || log.length == 0 || log[0] === undefined || log[0] === null) ? <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/log/?q=" + searchKey.replace("@", "%40").replaceAll(" ", "+").replaceAll("_", "+")}>Manage Volunteer Logs</Button> : ""}
+                {!(Object.keys(log).length === 0 || log.length == 0 || log[0] === undefined || log[0] === null) ?
+                    <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/log/?q=" + searchKey.replace("@", "%40").replaceAll(" ", "+").replaceAll("_", "+")} style={{ textDecoration: 'none', color: "black" }}>
+                        Manage Volunteer Logs
+                    </Button> : ""}
                 <br /><br />
                 <DataTable
                     className={classes.table}

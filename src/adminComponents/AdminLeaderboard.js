@@ -35,6 +35,12 @@ export default function AdminLeaderboard({ leaderboard, setLeaderboard }) {
     const classes = useStyles();
     const columns = [
         {
+            name: "",
+            selector: "place",
+            sortable: false,
+            grow: 0.1,
+        },
+        {
             name: "User",
             selector: "user",
             sortable: false,

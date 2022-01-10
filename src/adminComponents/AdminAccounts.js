@@ -141,7 +141,9 @@ export default function AdminAccounts({ accounts }) {
         <div>
             <Typography variant="h4" className={classes.text}> Volunteer Accounts </Typography>
             <br />
-            <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/account/"}>Manage Accounts</Button>
+            <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/account/"} style={{ textDecoration: 'none', color: "black" }}>
+                Manage Accounts
+            </Button>
             <br /><br /><br />
             <DataTable
                 columns={columns}
