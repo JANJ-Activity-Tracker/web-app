@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function AdminUpcomingEvents({ events }) {
+export default function AdminUpcomingEvents({ events, updateEvents }) {
     const classes = useStyles();
 
     const [show, setShow] = useState(false);
@@ -129,7 +129,7 @@ export default function AdminUpcomingEvents({ events }) {
                 Manage Events
             </Button>
             <Button onClick={handleShow} variant="contained" color="secondary" >Add Event</Button>
-            <AddEvent show={show} handleClose={handleClose} />
+            <AddEvent show={show} handleClose={handleClose} updateEvents={updateEvents}/>
             <br /><br /><br />
             <DataTable
                 columns={columns}

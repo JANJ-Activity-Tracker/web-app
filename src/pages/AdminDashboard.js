@@ -155,7 +155,7 @@ export default function AdminDashboard({ page, setPage }) {
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                     <div className={classes.box}>
-                        <AdminUpcomingEvents events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming === true)) : events} />
+                        <AdminUpcomingEvents updateEvents={() => updateEvents()} events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming === true)) : events} />
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>

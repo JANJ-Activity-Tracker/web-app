@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
 	modal: {
 		width: "75vw",
 		maxWidth: "75vw",
+		paddingLeft: "10px",
 	},
 	label: {
 		paddingLeft: "10px",
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function AddEvent({ show, handleClose }) {
+export default function AddEvent({ show, handleClose, updateEvents }) {
 	const classes = useStyles();
 
 	const [event_name, setEventName] = useState("");
@@ -33,6 +34,7 @@ export default function AddEvent({ show, handleClose }) {
 	const [link, setLink] = useState("");
 	const [active, setActive] = useState(false);
 	const [upcoming, setUpcoming] = useState(false);
+
 	const [error, setError] = useState("");
 
 
@@ -58,7 +60,80 @@ export default function AddEvent({ show, handleClose }) {
 		});
 
 		console.log(response);
-		console.log(response.response);
+
+		if (response.response !== "Successfully added new event.") {
+			if (response.event_name) {
+				setError("Event Name: " + response.event_name);
+				return;
+			}
+			else if (response.contact_name) {
+				setError("Contact Name: " + response.contact_name);
+				return;
+			}
+			else if (response.contact_email) {
+				setError("Contact Email: " + response.contact_email);
+				return;
+			}
+			else if (response.contact_number) {
+				setError("Contact Number: " + response.contact_number);
+				return;
+			}
+			else if (response.event_summary) {
+				setError("Event Summary: " + response.event_summary);
+				return;
+			}
+			else if (response.role_description) {
+				setError("Role Description: " + response.role_description);
+				return;
+			}
+			else if (response.max_hours) {
+				setError("Max Hours: " + response.max_hours);
+				return;
+			}
+			else if (response.start_datetime) {
+				setError("Start Date/Time: " + response.start_datetime);
+				return;
+			}
+			else if (response.end_datetime) {
+				setError("End Date/Time: " + response.end_datetime);
+				return;
+			}
+			else if (response.location) {
+				setError("Location: " + response.location);
+				return;
+			}
+			else if (response.link) {
+				setError("Link: " + response.link);
+				return;
+			}
+			else if (response.active) {
+				setError("Active: " + response.active);
+				return;
+			}
+			else if (response.upcoming) {
+				setError("Upcoming: " + response.upcoming);
+				return;
+			}
+		}
+		else {
+			setEventName("");
+			setContactName("");
+			setContactEmail("");
+			setContactNumber("");
+			setEventSummary("");
+			setRoleDescription("");
+			setMaxHours("");
+			setStartDateTime(new Date());
+			setEndDateTime(new Date());
+			setLocation("");
+			setLink("");
+			setActive(false);
+			setUpcoming(false);
+			setError("");
+
+			handleClose();
+			updateEvents();
+		}
 
 	}
 
@@ -128,10 +203,10 @@ export default function AddEvent({ show, handleClose }) {
 					</InputGroup>
 					<br />
 				</Form.Group>
+				{error.length === 0 ? "" : "Error: "}{error}
 			</Modal.Body>
-			{error}
 			<Modal.Footer>
-				<Button variant="secondary" onClick={() => addEvent()}>
+				<Button variant="contained" color="secondary" onClick={() => addEvent()}>
 					Submit
 				</Button>
 			</Modal.Footer>
