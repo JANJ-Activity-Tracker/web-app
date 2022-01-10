@@ -32,8 +32,8 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 	const [end_datetime, setEndDateTime] = useState(new Date());
 	const [location, setLocation] = useState("");
 	const [link, setLink] = useState("");
-	const [active, setActive] = useState(false);
-	const [upcoming, setUpcoming] = useState(false);
+	const [active, setActive] = useState(true);
+	const [upcoming, setUpcoming] = useState(true);
 
 	const [error, setError] = useState("");
 
@@ -170,18 +170,20 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 					<Form.Control type="text" as="textarea" onChange={(e) => setRoleDescription(e.target.value)} placeholder="Enter volunteer role description" />
 					<br />
 					<Form.Label>Max Hours: </Form.Label>
-					<Form.Control type="text" onChange={(e) => setMaxHours(e.target.value)} placeholder="Enter number of max hours" />
+					<Form.Control type="text" onChange={(e) => setMaxHours(e.target.value)} placeholder="Enter maximum number of hours that can be logged by volunteers for this event" />
 					<br />
 					<Form.Label>Start Date/Time: </Form.Label>
 					<DateTimePicker
 						onChange={setStartDateTime}
 						value={start_datetime}
+						className={classes.label}
 					/>
 					<br /><br />
 					<Form.Label>End Date/Time: </Form.Label>
 					<DateTimePicker
 						onChange={setEndDateTime}
 						value={end_datetime}
+						className={classes.label}
 					/>
 					<br /><br />
 					<Form.Label>Location: </Form.Label>
@@ -196,14 +198,14 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 					</InputGroup>
 					<br />
 					<InputGroup >
-						<Form.Label className={classes.label}>Active: </Form.Label>
-						<InputGroup.Checkbox onChange={(e) => setActive(e.target.value)} />
-						<Form.Label className={classes.label}>Upcoming: </Form.Label>
-						<InputGroup.Checkbox onChange={(e) => setUpcoming(e.target.value)} />
+						<Form.Label className={classes.label}>Active (Students can log hours under this event): </Form.Label>
+						<InputGroup.Checkbox onChange={(e) => setActive(e.target.value)} defaultChecked={active} />
+						<Form.Label className={classes.label}>Upcoming (Looking for volunteers): </Form.Label>
+						<InputGroup.Checkbox onChange={(e) => setUpcoming(e.target.value)} defaultChecked={upcoming} />
 					</InputGroup>
 					<br />
 				</Form.Group>
-				{error.length === 0 ? "" : "Error: "}{error}
+				{error.length === 0 ? "" : "Error "}{error}
 			</Modal.Body>
 			<Modal.Footer>
 				<Button variant="contained" color="secondary" onClick={() => addEvent()}>

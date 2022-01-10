@@ -110,7 +110,9 @@ export default function AdminUpcomingEvents({ events, updateEvents }) {
                         {data.link !== "" && data.link !== undefined ?
                             <Grid item>
                                 <br />
-                                <Button variant="contained" color="secondary" href={data.link}>More Information</Button>
+                                <Button variant="contained" color="secondary" href={data.link} style={{ textDecoration: 'none', color: "black" }}>
+                                    More Information
+                                </Button>
                             </Grid> : ""}
                     </Grid>
                     <Grid item xs={6}>
@@ -129,7 +131,7 @@ export default function AdminUpcomingEvents({ events, updateEvents }) {
                 Manage Events
             </Button>
             <Button onClick={handleShow} variant="contained" color="secondary" >Add Event</Button>
-            <AddEvent show={show} handleClose={handleClose} updateEvents={updateEvents}/>
+            <AddEvent show={show} handleClose={handleClose} updateEvents={updateEvents} />
             <br /><br /><br />
             <DataTable
                 columns={columns}

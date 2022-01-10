@@ -100,7 +100,9 @@ export default function UpcomingEvents({ events }) {
                         {data.link !== "" && data.link !== undefined ?
                             <Grid item>
                                 <br />
-                                <Button variant="contained" color="secondary" href={data.link}>More Information</Button>
+                                <Button variant="contained" color="secondary" href={data.link} style={{ textDecoration: 'none', color: "black" }}>
+                                    More Information
+                                </Button>
                             </Grid> : ""}
                     </Grid>
                     <Grid item xs={6}>

@@ -211,7 +211,7 @@ export default function Portfolio({ events, log, updateLog }) {
         <div >
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Typography variant="h4" className={classes.text}>Portfolio</Typography>
-                <Button variant="contained" color="secondary" className={classes.button} onClick={handleClickOpen}>Add New Event</Button>
+                <Button variant="contained" color="secondary" className={classes.button} onClick={handleClickOpen}>Add Log Entry</Button>
                 <br /><br />
                 <DataTable
                     className={classes.table}
@@ -224,7 +224,7 @@ export default function Portfolio({ events, log, updateLog }) {
                     actions={actionsMemo}
                 />
                 <Dialog open={openDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Add New Entry</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Add Log Entry</DialogTitle>
                     <DialogContent>
                         <FormControl fullWidth>
                             <InputLabel id="event_name">Event Name</InputLabel>

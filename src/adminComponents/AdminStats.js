@@ -5,7 +5,10 @@ const useStyles = makeStyles((theme) => ({
     root: {
         position: "relative",
         height: "100%",
-        minHeight: "400px"
+        minHeight: "600px",
+        [theme.breakpoints.down('sm')]: {
+            minHeight: "500px"
+        },
     },
     body: {
         position: "absolute",
