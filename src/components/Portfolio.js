@@ -34,11 +34,7 @@ export default function Portfolio({ events, log, updateLog }) {
     const [role, setRole] = useState("");
     const [hours, setHours] = useState(0);
     const [comments, setComments] = useState("");
-    let t = new Date();
-    let month = t.getMonth() + 1;
-    let day = t.getDate();
-    let year = t.getFullYear();
-    const [date, setDate] = useState(month + "/" + day + "/" + year);
+    const [date, setDate] = useState(new Date());
     const [error, setError] = useState("");
 
     const [openDialog, setOpenDialog] = useState(false);
@@ -121,10 +117,6 @@ export default function Portfolio({ events, log, updateLog }) {
                 setError("Error with user email");
                 return;
             }
-            else if (response.event_id) {
-                setError("Error with event id");
-                return;
-            }
             else if (response.role) {
                 setError("Role: " + response.role);
                 return;
@@ -137,6 +129,18 @@ export default function Portfolio({ events, log, updateLog }) {
                 setError("Comments: " + response.comments);
                 return;
             }
+            else if (response.date) {
+                setError("Comments: " + response.date);
+                return;
+            }
+        }
+        else {
+            setEventName("");
+            setCustomEventName("");
+            setRole("");
+            setHours(0);
+            setComments("");
+            setDate(new Date());
         }
 
         console.log(response);
@@ -294,7 +298,7 @@ export default function Portfolio({ events, log, updateLog }) {
                             fullWidth
                             onChange={(e) => setComments(e.target.value)}
                         />
-                        <Typography variant="body1">
+                        <Typography variant="body1" color="error">
                             {error}
                         </Typography>
                     </DialogContent>

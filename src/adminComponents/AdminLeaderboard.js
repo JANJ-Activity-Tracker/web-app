@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, Typography, Grid } from "@material-ui/core";
-import { request } from "../util";
 import DataTable from "react-data-table-component";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function AdminLeaderboard({ leaderboard, setLeaderboard }) {
+export default function AdminLeaderboard({ leaderboard }) {
     const classes = useStyles();
     const columns = [
         {
@@ -51,29 +50,6 @@ export default function AdminLeaderboard({ leaderboard, setLeaderboard }) {
             sortable: false,
         },
     ]
-
-    // User profile 
-    const updateLeaderboard = async () => {
-        let response = await request({
-            type: "GET",
-            path: `leaderboard/` // change to any user
-        })
-        setLeaderboard(response);
-        console.log(response);
-    };
-
-    useEffect(() => {
-        if (leaderboard.length !== undefined && leaderboard.length >= 0) {
-            updateLeaderboard();
-            const interval = setInterval(updateLeaderboard, 300000);
-            return () => {
-                clearInterval(interval);
-            }
-        }
-        else {
-            updateLeaderboard();
-        }
-    })
 
     return (
         <div className={classes.root}>

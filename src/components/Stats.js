@@ -41,6 +41,7 @@ export default function Stats({ log }) {
             totalHours += parseFloat(log[i].hours);
         }
         setHours(totalHours);
+        console.log("update stats");
     }
 
     useEffect(() => {

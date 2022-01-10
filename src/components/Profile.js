@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Button, Grid, IconButton, Paper, makeStyles, TextField, Typography } from "@material-ui/core";
 import { styled } from '@mui/material/styles';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { formRequest, request } from "../util";
+// import { formRequest } from "../util";
+import { request } from "../util";
 import { URL } from "../constants";
 
 const Input = styled('input')({

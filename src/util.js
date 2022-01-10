@@ -16,7 +16,6 @@ export const requestRegister = async (firstname, lastname, email, grad_year, sch
     request.body = JSON.stringify(info);
     let data = await fetch(`${URL}/register/`, {
         ...request,
-        // TODO - this token is hardcoded now but need to fix
         headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest",
@@ -82,39 +81,39 @@ export const request = async ({ type: reqType, path: url, body: body }) => {
     return response;
 }
 
-export const formRequest = async ({ type: reqType, path: url, body: body }) => {
-    let type = reqType ? reqType : body ? "POST" : "GET";
-    let req = { method: type };
-    let data;
+// export const formRequest = async ({ type: reqType, path: url, body: body }) => {
+//     let type = reqType ? reqType : body ? "POST" : "GET";
+//     let req = { method: type };
+//     let data;
 
-    if (reqType === "POST" || reqType === "PATCH") {
-        if (body) {
-            req.body = body;
-        }
+//     if (reqType === "POST" || reqType === "PATCH") {
+//         if (body) {
+//             req.body = body;
+//         }
 
-        console.log(req.body);
+//         console.log(req.body);
 
-        data = await fetch(`${URL}/${url}`, {
-            ...req,
-            // token authentication 
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "X-Requested-With": "XMLHttpRequest",
-                'Authorization': `Token ${localStorage.getItem('token')}`,
-            },
-        });
-    }
-    else {
-        data = await fetch(`${URL}/${url}`, {
-            ...req,
-            // token authentication 
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "X-Requested-With": "XMLHttpRequest",
-                'Authorization': `Token ${localStorage.getItem('token')}`
-            },
-        });
-    }
-    // var response = await data.json();
-    return data;
-}
+//         data = await fetch(`${URL}/${url}`, {
+//             ...req,
+//             // token authentication 
+//             headers: {
+//                 "Content-Type": "multipart/form-data",
+//                 "X-Requested-With": "XMLHttpRequest",
+//                 'Authorization': `Token ${localStorage.getItem('token')}`,
+//             },
+//         });
+//     }
+//     else {
+//         data = await fetch(`${URL}/${url}`, {
+//             ...req,
+//             // token authentication 
+//             headers: {
+//                 "Content-Type": "multipart/form-data",
+//                 "X-Requested-With": "XMLHttpRequest",
+//                 'Authorization': `Token ${localStorage.getItem('token')}`
+//             },
+//         });
+//     }
+//     // var response = await data.json();
+//     return data;
+// }

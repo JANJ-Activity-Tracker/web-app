@@ -145,7 +145,7 @@ export default function AdminDashboard({ page, setPage }) {
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={5} xl={5} className={classes.grid}>
                     <div className={classes.box}>
-                        <AdminLeaderboard leaderboard={leaderboard} setLeaderboard={setLeaderboard} />
+                        <AdminLeaderboard leaderboard={leaderboard} />
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={5} xl={5} className={classes.grid}>
