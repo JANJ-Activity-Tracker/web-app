@@ -46,17 +46,17 @@ export default function AdminStats({ stats }) {
             <br /><br />
             <div align="left" className={classes.body}>
                 <Typography variant="h5" className={classes.bodyText}>Number of Accounts: </Typography>
-                <Typography variant="h3" className={classes.bodyText}> <b>{stats && stats.num_accounts ? stats.num_accounts : "..."}</b></Typography>
+                <Typography variant="h3" className={classes.bodyText}> <b>{stats && stats.num_accounts ? stats.num_accounts : "0"}</b></Typography>
                 <hr class="solid" className={classes.divider}></hr>
                 <Typography variant="h5" className={classes.bodyText}>Number of Active Volunteers: </Typography>
-                <Typography variant="h3" className={classes.bodyText}> <b>{stats && stats.num_active_volunteers ? stats.num_active_volunteers : "..."}</b></Typography>
+                <Typography variant="h3" className={classes.bodyText}> <b>{stats && stats.num_active_volunteers ? stats.num_active_volunteers : "0"}</b></Typography>
                 <hr class="solid" className={classes.divider}></hr>
                 <Typography variant="h5" className={classes.bodyText}>Total Volunteer Hours: </Typography>
                 <Typography variant="h3" className={classes.bodyText}> <b>{stats && stats.total_hours
-                    ? stats.total_hours.hours__sum : "..."}</b> </Typography>
+                    ? stats.total_hours : "0"}</b> </Typography>
                 <hr class="solid" className={classes.divider}></hr>
                 <Typography variant="h5" className={classes.bodyText}>Number of Logs:  </Typography>
-                <Typography variant="h3" className={classes.bodyText}><b>{stats && stats.num_logs ? stats.num_logs : "..."}</b></Typography>
+                <Typography variant="h3" className={classes.bodyText}><b>{stats && stats.num_logs ? stats.num_logs : "0"}</b></Typography>
             </div>
         </div>
     )
