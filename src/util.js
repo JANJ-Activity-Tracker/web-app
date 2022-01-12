@@ -63,7 +63,9 @@ export const request = async ({ type: reqType, path: url, body: body }) => {
                 'Authorization': `Token ${localStorage.getItem('token')}`,
                 'Accept': 'application/json'
             },
-        });
+        }).catch((error) => {
+            console.log(error);
+        })
     }
     else {
         data = await fetch(`${URL}/${url}`, {
@@ -75,7 +77,9 @@ export const request = async ({ type: reqType, path: url, body: body }) => {
                 'Authorization': `Token ${localStorage.getItem('token')}`,
                 'Accept': 'application/json'
             },
-        });
+        }).catch((error) => {
+            console.log(error);
+        })
     }
     var response = await data.json();
     return response;

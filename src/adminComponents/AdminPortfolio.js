@@ -226,7 +226,7 @@ export default function AdminPortfolio() {
                 </FormControl>
                 <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => updateLog(e)}>Search</Button>
                 {!(Object.keys(log).length === 0 || log.length == 0 || log[0] === undefined || log[0] === null) ?
-                    <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/log/?q=" + searchKey.replace("@", "%40").replaceAll(" ", "+").replaceAll("_", "+")} style={{ textDecoration: 'none', color: "black" }}>
+                    <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/log/?q=" + searchKey.replace("@", "%40").replaceAll(" ", "+").replaceAll("_", "+") + "/"} style={{ textDecoration: 'none', color: "black" }}>
                         Manage Volunteer Logs
                     </Button> : ""}
                 <br /><br />
