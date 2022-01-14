@@ -90,7 +90,7 @@ export default function Dashboard({ page, setPage }) {
     const updateEvents = async () => {
         let response = await request({
             type: "GET",
-            path: "events/"
+            path: "events/all/"
         })
         setEvents(response);
     }

@@ -89,7 +89,7 @@ export default function AdminDashboard({ page, setPage }) {
     const updateEvents = async () => {
         let response = await request({
             type: "GET",
-            path: "events/"
+            path: "events/all/"
         })
         setEvents(response);
     }

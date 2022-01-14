@@ -80,6 +80,15 @@ export default function AdminUpcomingEvents({ events, updateEvents }) {
             name: "End Date/Time",
             selector: "end_datetime",
             sortable: false
+        },
+        {
+            // WIP
+            // button: true,
+            // cell: () => (
+            //     <button>
+            //         Edit
+            //     </button>
+            // )
         }
     ];
 

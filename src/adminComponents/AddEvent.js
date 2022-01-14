@@ -8,8 +8,8 @@ import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
-		width: "75vw",
-		maxWidth: "75vw",
+		width: "60vw",
+		maxWidth: "60vw",
 		paddingLeft: "10px",
 	},
 	label: {
@@ -41,7 +41,7 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 	const addEvent = async () => {
 		let response = await request({
 			type: "POST",
-			path: "events/",
+			path: "events/add/",
 			body: {
 				event_name,
 				contact_name,
