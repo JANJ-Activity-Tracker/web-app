@@ -1,8 +1,10 @@
 import { React, useState } from "react";
 import { Button, Grid, makeStyles, Typography } from "@material-ui/core";
+import EditIcon from '@mui/icons-material/Edit';
 import DataTable from "react-data-table-component";
 import { URL, BACKEND_URL } from "../constants";
 import AddEvent from "../adminComponents/AddEvent";
+import EditEvent from "../adminComponents/EditEvent";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,20 +41,29 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function AdminUpcomingEvents({ events, updateEvents }) {
+export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) {
     const classes = useStyles();
 
-    const [show, setShow] = useState(false);
+    // ADD EVENT
+    const [showAddEvent, setShowAddEvent] = useState(false);
+    const handleCloseAddEvent = () => setShowAddEvent(false);
+    const handleShowAddEvent = () => setShowAddEvent(true);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // EDIT EVENT
+    const [event_info, setEventInfo] = useState({});
+    const [editing, setEditing] = useState(false);
+    const [showEditEvent, setShowEditEvent] = useState(false);
+    const handleCloseEditEvent = () => setShowEditEvent(false);
+    const handleShowEditEvent = () => setShowEditEvent(true);
+
 
     const columns = [
         {
             name: "Name",
             selector: "event_name",
             sortable: true,
-            grow: 2
+            grow: 2,
+            editable: true
         },
         {
             name: "Summary",
@@ -82,13 +93,15 @@ export default function AdminUpcomingEvents({ events, updateEvents }) {
             sortable: false
         },
         {
-            // WIP
-            // button: true,
-            // cell: () => (
-            //     <button>
-            //         Edit
-            //     </button>
-            // )
+            button: true,
+            cell: (info) => (
+                <Button
+                    startIcon={<EditIcon />}
+                    onClick={() => { handleShowEditEvent(); setEventInfo(info); setEditing(true) }}
+                >
+                    EDIT
+                </Button>
+            )
         }
     ];
 
@@ -139,8 +152,21 @@ export default function AdminUpcomingEvents({ events, updateEvents }) {
             <Button className={classes.button} variant="contained" color="secondary" href={BACKEND_URL + "/core/event/"} style={{ textDecoration: 'none', color: "black" }}>
                 Manage Events
             </Button>
-            <Button onClick={handleShow} variant="contained" color="secondary" >Add Event</Button>
-            <AddEvent show={show} handleClose={handleClose} updateEvents={updateEvents} />
+            <Button onClick={handleShowAddEvent} variant="contained" color="secondary" >Add Event</Button>
+            <AddEvent
+                show={showAddEvent}
+                handleClose={handleCloseAddEvent}
+                updateEvents={updateEvents}
+            />
+            <EditEvent
+                event_info={event_info}
+                editing={editing}
+                setEditing={setEditing}
+                getEvent={getEvent}
+                show={showEditEvent}
+                handleClose={handleCloseEditEvent}
+                updateEvents={updateEvents}
+            />
             <br /><br /><br />
             <DataTable
                 columns={columns}

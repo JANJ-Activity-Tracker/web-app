@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AdminDashboard({ page, setPage }) {
     const classes = useStyles();
     const [events, setEvents] = useState({});
+    const [editingEvent, setEditingEvent] = useState({});
     const [accounts, setAccounts] = useState({});
     const [leaderboard, setLeaderboard] = useState({});
     const [stats, setStats] = useState({});
@@ -106,6 +107,16 @@ export default function AdminDashboard({ page, setPage }) {
         }
     })
 
+    // JANJ specific event
+    const getEvent = async (id) => {
+        let response = await request({
+            type: "GET",
+            path: `events/${id}/`
+        })
+        setEditingEvent(response);
+    }
+
+
     // User accounts
     const updateAccounts = async () => {
         let response = await request({
@@ -155,7 +166,7 @@ export default function AdminDashboard({ page, setPage }) {
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
                     <div className={classes.box}>
-                        <AdminUpcomingEvents updateEvents={() => updateEvents()} events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming === true)) : events} />
+                        <AdminUpcomingEvents getEvent={getEvent} updateEvents={() => updateEvents()} events={Object.keys(events).length !== 0 ? events.filter(event => (event.upcoming === true)) : events} />
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={10} xl={10} className={classes.grid}>
