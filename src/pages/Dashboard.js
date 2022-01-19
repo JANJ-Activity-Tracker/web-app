@@ -41,14 +41,27 @@ export default function Dashboard({ page, setPage }) {
     const [profile, setProfile] = useState({});
     const [profileImage, setProfileImage] = useState({});
 
+    function logout() {
+        setPage("login");
+        localStorage.setItem("token", "");
+        localStorage.setItem("email", "");
+        localStorage.setItem("is_admin", "");
+    }
+
     // User profile 
     const updateProfile = async () => {
         let response = await request({
             type: "GET",
             path: `profile/${localStorage.getItem("email")}` // change to any user
         })
-        setProfile(response);
-        console.log(response);
+
+        if (response["detail"] === "Invalid token.") {
+            console.log("logout");
+            logout();
+        }
+        else {
+            setProfile(response);
+        }
     };
 
     useEffect(() => {
@@ -63,36 +76,49 @@ export default function Dashboard({ page, setPage }) {
         }
     })
 
-    // User profile image
-    const updateProfileImage = async () => {
-        let response = await request({
-            type: "GET",
-            path: `profile-image/${localStorage.getItem("email")}` // change to any user
-        })
-        setProfile(response);
-        console.log(response);
-    };
+    // // User profile image
+    // const updateProfileImage = async () => {
+    //     let response = await request({
+    //         type: "GET",
+    //         path: `profile-image/${localStorage.getItem("email")}` // change to any user
+    //     })
+    //     if (response["detail"] === "Invalid token.") {
+    //         console.log("logout");
+    //         logout();
+    //     }
+    //     else {
+    //         setProfileImage(response);
+    //     }
 
-    useEffect(() => {
-        if (Object.keys(profile).length !== 0) {
-            const interval = setInterval(updateProfileImage, 300000);
-            return () => {
-                clearInterval(interval);
-            }
-        }
-        else {
-            updateProfileImage();
-        }
-    })
+    //     console.log(response);
+    // };
+
+    // useEffect(() => {
+    //     if (Object.keys(profile).length !== 0) {
+    //         const interval = setInterval(updateProfileImage, 300000);
+    //         return () => {
+    //             clearInterval(interval);
+    //         }
+    //     }
+    //     else {
+    //         updateProfileImage();
+    //     }
+    // })
 
 
     // JANJ events
     const updateEvents = async () => {
         let response = await request({
             type: "GET",
-            path: "events/"
+            path: "events/all/"
         })
-        setEvents(response);
+        if (response.detail === "Invalid token.") {
+            console.log("logout");
+            logout();
+        }
+        else {
+            setEvents(response);
+        }
     }
 
     useEffect(() => {
@@ -113,7 +139,13 @@ export default function Dashboard({ page, setPage }) {
             type: "GET",
             path: `log/${localStorage.getItem("email")}` // change to any user
         })
-        setLog(response);
+        if (response["detail"] === "Invalid token.") {
+            console.log("logout");
+            logout();
+        }
+        else {
+            setLog(response);
+        }
     };
 
     useEffect(() => {
@@ -163,7 +195,7 @@ export default function Dashboard({ page, setPage }) {
                         </div>
                     </Grid>
                 </Grid>
-                : <Profile profile={profile} updateProfile={updateProfile} profileImage={profileImage} updateProfileImage={updateProfileImage} />
+                : <Profile profile={profile} updateProfile={updateProfile} />
             }
             <br /><br /><br />
         </div>

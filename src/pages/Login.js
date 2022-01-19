@@ -59,7 +59,7 @@ export default function Login({ setPage, setToken, setIsAdmin }) {
         setLoading(true);
         let response = await requestLogin(email, password);
         setLoading(false);
-        console.log(response);
+        // console.log(response);
         if (response && response.token) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('email', email);

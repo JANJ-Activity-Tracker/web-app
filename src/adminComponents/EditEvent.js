@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Form, InputGroup } from 'react-bootstrap'
 import { Button, makeStyles } from '@material-ui/core'
 import { request } from "../util";
@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function AddEvent({ show, handleClose, updateEvents }) {
-	const classes = useStyles();
 
+export default function EditEvent({ show, handleClose, event_info, editing, setEditing, updateEvents }) {
+	const classes = useStyles();
 	const [event_name, setEventName] = useState("");
 	const [contact_name, setContactName] = useState("");
 	const [contact_email, setContactEmail] = useState("");
@@ -38,10 +38,32 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 	const [error, setError] = useState("");
 
 
-	const addEvent = async () => {
+	useEffect(() => {
+		if (editing) {
+			setEventName(event_info.event_name)
+			setContactName(event_info.contact_name)
+			setContactEmail(event_info.contact_email)
+			setContactNumber(event_info.contact_number)
+			setEventSummary(event_info.event_summary)
+			setRoleDescription(event_info.role_description)
+			setMaxHours(event_info.max_hours)
+			setStartDateTime(new Date(event_info.start_datetime))
+			setEndDateTime(new Date(event_info.end_datetime))
+			setLocation(event_info.location)
+			setLink(event_info.link)
+			setActive(event_info.active)
+			setUpcoming(event_info.upcoming)
+
+			setEditing(false)
+		}
+
+	}, [editing])
+
+	const editEvent = async () => {
+
 		let response = await request({
-			type: "POST",
-			path: "events/add/",
+			type: "PATCH",
+			path: `edit-event/${event_info.id}/`,
 			body: {
 				event_name,
 				contact_name,
@@ -61,7 +83,10 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 
 		console.log(response);
 
-		if (response.response !== "Successfully added new event.") {
+		if (response.response !== "Successfully edited event.") {
+			if (response.response === "Wrong parameters.") {
+				setError("Event name, event summary, and role description cannot be blank.");
+			}
 			if (response.event_name) {
 				setError("Event Name: " + response.event_name);
 				return;
@@ -138,6 +163,7 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 	}
 
 
+
 	return (
 		<Modal
 			dialogClassName={classes.modal}
@@ -147,30 +173,30 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 			keyboard={false}
 		>
 			<Modal.Header closeButton>
-				<Modal.Title>Add New Event</Modal.Title>
+				<Modal.Title>Edit Event</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Group >
 					<Form.Label>Event Name: </Form.Label>
-					<Form.Control type="text" onChange={(e) => setEventName(e.target.value)} placeholder="Enter event name" />
+					<Form.Control type="text" value={event_name} onChange={(e) => setEventName(e.target.value)} placeholder="Enter event name" />
 					<br />
 					<Form.Label>JA Contact Name: </Form.Label>
-					<Form.Control type="text" onChange={(e) => setContactName(e.target.value)} placeholder="Enter JA contact name" />
+					<Form.Control type="text" value={contact_name} onChange={(e) => setContactName(e.target.value)} placeholder="Enter JA contact name" />
 					<br />
 					<Form.Label>JA Contact Email: </Form.Label>
-					<Form.Control type="text" onChange={(e) => setContactEmail(e.target.value)} placeholder="Enter JA contact email" />
+					<Form.Control type="text" value={contact_email} onChange={(e) => setContactEmail(e.target.value)} placeholder="Enter JA contact email" />
 					<br />
 					<Form.Label>JA Contact Number: </Form.Label>
-					<Form.Control type="text" onChange={(e) => setContactNumber(e.target.value)} placeholder="Enter JA contact number" />
+					<Form.Control type="text" value={contact_number} onChange={(e) => setContactNumber(e.target.value)} placeholder="Enter JA contact number" />
 					<br />
 					<Form.Label>Event Summary: </Form.Label>
-					<Form.Control type="text" as="textarea" onChange={(e) => setEventSummary(e.target.value)} placeholder="Enter event summary" />
+					<Form.Control type="text" value={event_summary} as="textarea" onChange={(e) => setEventSummary(e.target.value)} placeholder="Enter event summary" />
 					<br />
 					<Form.Label>Role Description: </Form.Label>
-					<Form.Control type="text" as="textarea" onChange={(e) => setRoleDescription(e.target.value)} placeholder="Enter volunteer role description" />
+					<Form.Control type="text" value={role_description} as="textarea" onChange={(e) => setRoleDescription(e.target.value)} placeholder="Enter volunteer role description" />
 					<br />
 					<Form.Label>Max Hours: </Form.Label>
-					<Form.Control type="text" onChange={(e) => setMaxHours(e.target.value)} placeholder="Enter maximum number of hours that can be logged by volunteers for this event" />
+					<Form.Control type="text" value={max_hours} onChange={(e) => setMaxHours(e.target.value)} placeholder="Enter maximum number of hours that can be logged by volunteers for this event" />
 					<br />
 					<Form.Label>Start Date/Time: </Form.Label>
 					<DateTimePicker
@@ -187,31 +213,32 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 					/>
 					<br /><br />
 					<Form.Label>Location: </Form.Label>
-					<Form.Control type="text" onChange={(e) => setLocation(e.target.value)} placeholder="Enter location" />
+					<Form.Control type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Enter location" />
 					<br />
 					<Form.Label>Link: </Form.Label>
 					<InputGroup className="mb-3">
 						<InputGroup.Text id="basic-addon3">
 							https://
 						</InputGroup.Text>
-						<Form.Control type="text" onChange={(e) => setLink('https://' + e.target.value)} placeholder="Enter link" />
+						<Form.Control type="text" value={link.substring(8)} onChange={(e) => setLink('https://' + e.target.value)} placeholder="Enter link" />
 					</InputGroup>
 					<br />
 					<InputGroup >
-						<Form.Label className={classes.label}>Active (Students can log hours under this event): </Form.Label>
-						<InputGroup.Checkbox onChange={(e) => setActive(e.target.checked)} checked={active} />
+						<Form.Label className={classes.label} >Active (Students can log hours under this event): </Form.Label>
+						<InputGroup.Checkbox onClick={(e) => setActive(e.target.checked)} checked={active} />
 						<Form.Label className={classes.label}>Upcoming (Looking for volunteers): </Form.Label>
-						<InputGroup.Checkbox onChange={(e) => setUpcoming(e.target.checked)} checked={upcoming} />
+						<InputGroup.Checkbox onClick={(e) => setUpcoming(e.target.checked)} checked={upcoming} />
 					</InputGroup>
 					<br />
 				</Form.Group>
 				{error.length === 0 ? "" : "Error "}{error}
 			</Modal.Body>
 			<Modal.Footer>
-				<Button variant="contained" color="secondary" onClick={() => addEvent()}>
-					Submit
+				<Button variant="contained" color="secondary" onClick={editEvent}>
+					Update
 				</Button>
 			</Modal.Footer>
 		</Modal>
 	)
 }
+

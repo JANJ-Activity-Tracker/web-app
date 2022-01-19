@@ -162,6 +162,8 @@ export default function Portfolio({ events, log, updateLog }) {
         result = '';
         result += headers.join(columnDelimiter);
         result += lineDelimiter;
+        let total_hours = 0;
+        let entry_ctr = 1;
 
         let total_hours = 0;
         let entry_ctr = 1;

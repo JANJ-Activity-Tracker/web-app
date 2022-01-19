@@ -98,7 +98,7 @@ export default function AdminAccounts({ accounts }) {
             result += account_ctr;
             keys.forEach(key => {
                 result += columnDelimiter;
-                result += item[key];
+                result += ('"' + (item[key] + "").replace(/\"/g, "\"\"") + '"');
                 ctr++;
             });
             account_ctr++;
