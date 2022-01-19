@@ -221,7 +221,7 @@ export default function EditEvent({ show, handleClose, event_info, editing, setE
 						<InputGroup.Text id="basic-addon3">
 							https://
 						</InputGroup.Text>
-						<Form.Control type="text" value={link} onChange={(e) => setLink('https://' + e.target.value)} placeholder="Enter link" />
+						<Form.Control type="text" value={link.substring(8)} onChange={(e) => setLink('https://' + e.target.value)} placeholder="Enter link" />
 					</InputGroup>
 					<br />
 					<InputGroup >
