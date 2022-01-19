@@ -42,6 +42,7 @@ export default function AdminDashboard({ page, setPage }) {
     const [leaderboard, setLeaderboard] = useState({});
     const [stats, setStats] = useState({});
     const [noEvents, setNoEvents] = useState(false);
+    const [noAccounts, setNoAccounts] = useState(false);
 
     function logout() {
         setPage("login");
@@ -144,11 +145,21 @@ export default function AdminDashboard({ page, setPage }) {
             path: "all-accounts/"
         })
         console.log(response);
-        setAccounts(response);
+        if (response.detail === "Invalid token.") {
+            console.log("logout");
+            logout();
+        }
+        else if (response.response === "No volunteer accounts have been created.") {
+            setNoAccounts(true);
+        }
+        else {
+            setAccounts(response);
+            setNoAccounts(false);
+        }
     }
 
     useEffect(() => {
-        if (Object.keys(accounts).length !== 0) {
+        if (Object.keys(accounts).length !== 0 || noAccounts) {
             const interval = setInterval(updateAccounts, 300000);
             return () => {
                 clearInterval(interval);
