@@ -112,6 +112,10 @@ export default function Login({ setPage, setToken, setIsAdmin }) {
                     <Link href="#" onClick={(e) => register(e)}>
                         <u>Register</u>
                     </Link>
+                    <br />
+                    <Link href="https://forms.gle/pCFPfReRj94H25gh6">
+                        <u>Give us Feedback!</u>
+                    </Link>
                 </Typography>
             </Paper>
         </div>
