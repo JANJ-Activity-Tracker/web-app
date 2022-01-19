@@ -40,6 +40,7 @@ export default function Dashboard({ page, setPage }) {
     const [log, setLog] = useState({});
     const [profile, setProfile] = useState({});
     const [profileImage, setProfileImage] = useState({});
+    const [noEvents, setNoEvents] = useState(false);
 
     function logout() {
         setPage("login");
@@ -116,13 +117,18 @@ export default function Dashboard({ page, setPage }) {
             console.log("logout");
             logout();
         }
+        else if (response.response === "No events have been added.") {
+            console.log(response);
+            setNoEvents(true);
+        }
         else {
             setEvents(response);
+            setNoEvents(false);
         }
     }
 
     useEffect(() => {
-        if (Object.keys(events).length !== 0) {
+        if (Object.keys(events).length !== 0 || noEvents) {
             const interval = setInterval(updateEvents, 300000);
             return () => {
                 clearInterval(interval);

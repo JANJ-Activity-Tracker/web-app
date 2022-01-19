@@ -41,6 +41,14 @@ export default function AdminDashboard({ page, setPage }) {
     const [accounts, setAccounts] = useState({});
     const [leaderboard, setLeaderboard] = useState({});
     const [stats, setStats] = useState({});
+    const [noEvents, setNoEvents] = useState(false);
+
+    function logout() {
+        setPage("login");
+        localStorage.setItem("token", "");
+        localStorage.setItem("email", "");
+        localStorage.setItem("is_admin", "");
+    }
 
     // Admin Stats
     const updateStats = async () => {
@@ -92,11 +100,23 @@ export default function AdminDashboard({ page, setPage }) {
             type: "GET",
             path: "events/all/"
         })
-        setEvents(response);
+
+        if (response.detail === "Invalid token.") {
+            console.log("logout");
+            logout();
+        }
+        else if (response.response === "No events have been added.") {
+            console.log(response);
+            setNoEvents(true);
+        }
+        else {
+            setEvents(response);
+            setNoEvents(false);
+        }
     }
 
     useEffect(() => {
-        if (Object.keys(events).length !== 0) {
+        if (Object.keys(events).length !== 0 || noEvents) {
             const interval = setInterval(updateEvents, 300000);
             return () => {
                 clearInterval(interval);
@@ -128,7 +148,7 @@ export default function AdminDashboard({ page, setPage }) {
     }
 
     useEffect(() => {
-        if (Object.keys(events).length !== 0) {
+        if (Object.keys(accounts).length !== 0) {
             const interval = setInterval(updateAccounts, 300000);
             return () => {
                 clearInterval(interval);
