@@ -50,8 +50,8 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 				event_summary,
 				role_description,
 				max_hours,
-				start_datetime: moment(start_datetime).format('MM/DD/YYYY, h:mm:ss a'),
-				end_datetime: moment(start_datetime).format('MM/DD/YYYY, h:mm:ss a'),
+				start_datetime: moment(start_datetime).format('MM/DD/YYYY h:mm:00 a'),
+				end_datetime: moment(end_datetime).format('MM/DD/YYYY h:mm:00 a'),
 				location,
 				link,
 				active,
@@ -127,8 +127,8 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 			setEndDateTime(new Date());
 			setLocation("");
 			setLink("");
-			setActive(false);
-			setUpcoming(false);
+			setActive(true);
+			setUpcoming(true);
 			setError("");
 
 			handleClose();

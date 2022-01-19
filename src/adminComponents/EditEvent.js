@@ -47,8 +47,8 @@ export default function EditEvent({ show, handleClose, event_info, editing, setE
 			setEventSummary(event_info.event_summary)
 			setRoleDescription(event_info.role_description)
 			setMaxHours(event_info.max_hours)
-			setStartDateTime(event_info.start_datetime)
-			setEndDateTime(event_info.end_datetime)
+			setStartDateTime(new Date(event_info.start_datetime))
+			setEndDateTime(new Date(event_info.end_datetime))
 			setLocation(event_info.location)
 			setLink(event_info.link)
 			setActive(event_info.active)
@@ -56,11 +56,12 @@ export default function EditEvent({ show, handleClose, event_info, editing, setE
 
 			setEditing(false)
 		}
+		console.log(active, upcoming)
 
 	}, [editing])
 
 	const editEvent = async () => {
-		console.log(event_info.id)
+		console.log(active, upcoming)
 
 		let response = await request({
 			type: "PATCH",
@@ -73,8 +74,8 @@ export default function EditEvent({ show, handleClose, event_info, editing, setE
 				event_summary,
 				role_description,
 				max_hours,
-				start_datetime: moment(start_datetime).format('MM/DD/YYYY, h:mm:ss a'),
-				end_datetime: moment(start_datetime).format('MM/DD/YYYY, h:mm:ss a'),
+				start_datetime: moment(start_datetime).format('MM/DD/YYYY h:mm:00 a'),
+				end_datetime: moment(end_datetime).format('MM/DD/YYYY h:mm:00 a'),
 				location,
 				link,
 				active,
@@ -153,8 +154,8 @@ export default function EditEvent({ show, handleClose, event_info, editing, setE
 			setEndDateTime(new Date());
 			setLocation("");
 			setLink("");
-			setActive(false);
-			setUpcoming(false);
+			setActive(true);
+			setUpcoming(true);
 			setError("");
 
 			handleClose();
@@ -226,9 +227,9 @@ export default function EditEvent({ show, handleClose, event_info, editing, setE
 					<br />
 					<InputGroup >
 						<Form.Label className={classes.label} >Active (Students can log hours under this event): </Form.Label>
-						<InputGroup.Checkbox checked={active} onChange={(e) => setActive(e.target.value)} defaultChecked={active} />
+						<InputGroup.Checkbox onChange={(e) => setActive(e.target.value)} defaultChecked={active} />
 						<Form.Label className={classes.label}>Upcoming (Looking for volunteers): </Form.Label>
-						<InputGroup.Checkbox checked={upcoming} onChange={(e) => setUpcoming(e.target.value)} defaultChecked={upcoming} />
+						<InputGroup.Checkbox onChange={(e) => setUpcoming(e.target.value)} defaultChecked={upcoming} />
 					</InputGroup>
 					<br />
 				</Form.Group>
