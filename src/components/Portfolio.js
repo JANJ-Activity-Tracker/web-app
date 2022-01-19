@@ -170,7 +170,7 @@ export default function Portfolio({ events, log, updateLog }) {
             result += entry_ctr;
             keys.forEach(key => {
                 result += columnDelimiter;
-                result += item[key];
+                result += ('"' + (item[key] + "").replace(/\"/g, "\"\"") + '"');
                 ctr++;
                 if (key === 'hours') {
                     total_hours += item[key];
