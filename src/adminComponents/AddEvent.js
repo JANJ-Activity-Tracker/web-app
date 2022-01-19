@@ -199,9 +199,9 @@ export default function AddEvent({ show, handleClose, updateEvents }) {
 					<br />
 					<InputGroup >
 						<Form.Label className={classes.label}>Active (Students can log hours under this event): </Form.Label>
-						<InputGroup.Checkbox onChange={(e) => setActive(e.target.value)} defaultChecked={active} />
+						<InputGroup.Checkbox onChange={(e) => setActive(e.target.checked)} checked={active} />
 						<Form.Label className={classes.label}>Upcoming (Looking for volunteers): </Form.Label>
-						<InputGroup.Checkbox onChange={(e) => setUpcoming(e.target.value)} defaultChecked={upcoming} />
+						<InputGroup.Checkbox onChange={(e) => setUpcoming(e.target.checked)} checked={upcoming} />
 					</InputGroup>
 					<br />
 				</Form.Group>

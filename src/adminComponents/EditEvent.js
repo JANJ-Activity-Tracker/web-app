@@ -56,12 +56,10 @@ export default function EditEvent({ show, handleClose, event_info, editing, setE
 
 			setEditing(false)
 		}
-		console.log(active, upcoming)
 
 	}, [editing])
 
 	const editEvent = async () => {
-		console.log(active, upcoming)
 
 		let response = await request({
 			type: "PATCH",
@@ -227,9 +225,9 @@ export default function EditEvent({ show, handleClose, event_info, editing, setE
 					<br />
 					<InputGroup >
 						<Form.Label className={classes.label} >Active (Students can log hours under this event): </Form.Label>
-						<InputGroup.Checkbox onChange={(e) => setActive(e.target.value)} defaultChecked={active} />
+						<InputGroup.Checkbox onClick={(e) => setActive(e.target.checked)} checked={active} />
 						<Form.Label className={classes.label}>Upcoming (Looking for volunteers): </Form.Label>
-						<InputGroup.Checkbox onChange={(e) => setUpcoming(e.target.value)} defaultChecked={upcoming} />
+						<InputGroup.Checkbox onClick={(e) => setUpcoming(e.target.checked)} checked={upcoming} />
 					</InputGroup>
 					<br />
 				</Form.Group>
