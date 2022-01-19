@@ -85,6 +85,9 @@ export default function EditEvent({ show, handleClose, event_info, editing, setE
 		console.log(response);
 
 		if (response.response !== "Successfully edited event.") {
+			if (response.response === "Wrong parameters.") {
+				setError("Event name, event summary, and role description cannot be blank.");
+			}
 			if (response.event_name) {
 				setError("Event Name: " + response.event_name);
 				return;

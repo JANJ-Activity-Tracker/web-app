@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Profile({ profile, updateProfile, profileImage, updateProfileImage }) {
+export default function Profile({ profile, updateProfile }) {
     const classes = useStyles();
     const [firstname, setFirstname] = useState(profile.first_name || "");
     const [lastname, setLastname] = useState(profile.last_name || "");
@@ -80,9 +80,9 @@ export default function Profile({ profile, updateProfile, profileImage, updatePr
     };
 
     async function editProfile() {
-        editProfileImage();
+        // editProfileImage();
         let email = localStorage.getItem("email");
-        console.log(image);
+        // console.log(image);
         let response = await request({
             type: "PATCH",
             path: `edit-profile/${email}/`,
@@ -99,27 +99,27 @@ export default function Profile({ profile, updateProfile, profileImage, updatePr
         console.log(response);
     }
 
-    async function editProfileImage() {
-        let email = localStorage.getItem("email");
-        console.log(image);
-        const data = new FormData();
-        data.append("profile_image", image);
-        data.append("user_email", email);
+    // async function editProfileImage() {
+    //     let email = localStorage.getItem("email");
+    //     console.log(image);
+    //     const data = new FormData();
+    //     data.append("profile_image", image);
+    //     data.append("user_email", email);
 
-        let response = fetch(`${URL}/edit-profile-image/${email}/`, {
-            method: "PATCH",
-            body: data,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                "X-Requested-With": "XMLHttpRequest",
-                'Authorization': `Token ${localStorage.getItem('token')}`,
-            }
-        });
+    //     let response = fetch(`${URL}/edit-profile-image/${email}/`, {
+    //         method: "PATCH",
+    //         body: data,
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data',
+    //             "X-Requested-With": "XMLHttpRequest",
+    //             'Authorization': `Token ${localStorage.getItem('token')}`,
+    //         }
+    //     });
 
-        console.log(image);
-        updateProfileImage();
-        console.log(response);
-    }
+    //     console.log(image);
+    //     // updateProfileImage();
+    //     console.log(response);
+    // }
 
     return (
         <div >
@@ -140,7 +140,6 @@ export default function Profile({ profile, updateProfile, profileImage, updatePr
                     <Paper className={classes.paper}>
                         <div className={classes.box}>
                             <Typography variant="h6" >Personal Information</Typography>
-                            {console.log(profile.imageFile)}
                             {/* <img src={imageFile} className={classes.image} />
                             <br />
                             <label htmlFor="icon-button-file">
