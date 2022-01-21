@@ -1,12 +1,7 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
     FormControl,
-    InputLabel,
     makeStyles,
     MenuItem,
     Select,
@@ -15,7 +10,7 @@ import {
 } from "@material-ui/core";
 import DateFnsUtils from '@date-io/date-fns';
 import DataTable from "react-data-table-component";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { request } from "../util";
 import { BACKEND_URL } from "../constants";
 
@@ -46,6 +41,7 @@ export default function AdminPortfolio() {
     const [log, setLog] = useState({});
     const [searchKey, setSearchKey] = useState("");
     const [searchBy, setSearchBy] = useState("user_email")
+    const [error, setError] = useState("")
 
     // User volunteer and participation log 
     const updateLog = async () => {
@@ -60,7 +56,6 @@ export default function AdminPortfolio() {
             else {
                 setLog({});
             }
-            console.log(response);
         }
         else if (searchBy === "event_name" && searchKey != "") {
             let response = await request({
@@ -73,10 +68,44 @@ export default function AdminPortfolio() {
             else {
                 setLog({});
             }
-            console.log(response);
         }
-        console.log(searchKey);
+        else {
+            let response = await request({
+                type: "GET",
+                path: `log/all` // change to any user
+            })
+            if (response) {
+                setLog(response);
+            }
+            else {
+                setLog({});
+            }
+        }
+        console.log(log);
     };
+
+    // User volunteer and participation log 
+    const searchLog = async () => {
+        if (searchKey === "") {
+            setError("Enter value to search by.")
+        }
+        else {
+            setError("")
+        }
+        updateLog();
+    };
+
+    useEffect(() => {
+        if (Object.keys(log).length !== 0) {
+            const interval = setInterval(updateLog, 300000);
+            return () => {
+                clearInterval(interval);
+            }
+        }
+        else if (searchKey === "") {
+            updateLog();
+        }
+    })
 
     const columns = [
         {
@@ -160,7 +189,7 @@ export default function AdminPortfolio() {
 
         let array;
         let profile;
-        if (searchBy === "user_email") {
+        if (searchBy === "user_email" && searchKey !== "") {
             array = await request({
                 type: "GET",
                 path: `log/${searchKey}`
@@ -170,10 +199,16 @@ export default function AdminPortfolio() {
                 path: `profile/${searchKey}`
             })
         }
-        else {
+        else if (searchBy === "event_name" && searchKey !== "") {
             array = await request({
                 type: "GET",
                 path: `event-log/${searchKey}`
+            })
+        }
+        else {
+            array = await request({
+                type: "GET",
+                path: `log/all`
             })
         }
 
@@ -182,7 +217,7 @@ export default function AdminPortfolio() {
         let csv = convertArrayOfObjectsToCSV(array);
         if (csv == null) return;
 
-        const filename = searchBy === "user_email" ? profile.first_name + ' ' + profile.last_name + ' JANJ Volunteer Log.csv' : searchKey + ' JANJ Volunteer Log.csv';
+        const filename = searchBy === "user_email" && searchKey !== "" ? profile.first_name + ' ' + profile.last_name + ' JANJ Volunteer Log.csv' : searchKey !== "" ? searchKey + ' JANJ Volunteer Log.csv' : 'JANJ Volunteer Log.csv';
 
         if (!csv.match(/^data:text\/csv/i)) {
             csv = `data:text/csv;charset=utf-8,${csv}`;
@@ -224,12 +259,16 @@ export default function AdminPortfolio() {
                         <MenuItem value={"event_name"}>Event</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => updateLog(e)}>Search</Button>
+                <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => searchLog(e)}>Search</Button>
                 {!(Object.keys(log).length === 0 || log.length == 0 || log[0] === undefined || log[0] === null) ?
                     <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/log/?q=" + searchKey.replace("@", "%40").replaceAll(" ", "+").replaceAll("_", "+")} style={{ textDecoration: 'none', color: "black" }}>
                         Manage Volunteer Logs
                     </Button> : ""}
-                <br /><br />
+                <br />
+                <Typography className={classes.text}>
+                    {error}
+                </Typography>
+                <br />
                 <DataTable
                     className={classes.table}
                     columns={columns}
