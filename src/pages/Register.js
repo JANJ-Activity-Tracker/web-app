@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Register({ setPage, setToken }) {
+export default function Register({ setPage, setToken, setIsAdmin }) {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");

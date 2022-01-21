@@ -48,7 +48,7 @@ export default function AdminDashboard({ page, setPage }) {
         setPage("login");
         localStorage.setItem("token", "");
         localStorage.setItem("email", "");
-        localStorage.setItem("is_admin", "");
+        localStorage.setItem("is_admin", false);
     }
 
     // Admin Stats
