@@ -53,7 +53,7 @@ function App() {
       <img src="/bg2.png" className={classes.bg2} />
       <img src="/bg3.png" className={classes.bg3} />
       <div className={classes.dashboard}>
-        {page === "register" ? <Register setPage={setPage} setToken={setToken} /> :
+        {page === "register" ? <Register setPage={setPage} setToken={setToken} setIsAdmin={setIsAdmin} /> :
           (page === "dashboard" || page === "profile") && token && !isAdmin ? <Dashboard page={page} setPage={setPage} /> :
             (page === "dashboard") && token && isAdmin ? <AdminDashboard page={page} setPage={setPage} /> :
               <Login setPage={setPage} setToken={setToken} setIsAdmin={setIsAdmin} />}

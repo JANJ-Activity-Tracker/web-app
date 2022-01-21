@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Register({ setPage, setToken }) {
+export default function Register({ setPage, setToken, setIsAdmin }) {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
@@ -94,6 +94,14 @@ export default function Register({ setPage, setToken }) {
         if (response && response.token) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('email', email);
+            if (response.is_admin) {
+                setIsAdmin(true);
+                localStorage.setItem('is_admin', true);
+            }
+            else {
+                setIsAdmin(false);
+                localStorage.setItem('is_admin', false);
+            }
             setError("");
             setPage("dashboard");
             setToken(localStorage.getItem("token"));
