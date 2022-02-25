@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "white",
         zIndex: 0,
+        flexGrow: 1,
     },
     box: {
         backgroundColor: theme.palette.primary.main,
@@ -37,22 +38,8 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         marginRight: "20px",
-    },
-    table: {
-        width: '100%',
-        overflow: 'auto',
     }
 }));
-
-const customStyles = {
-    table: {
-        style: {
-            width: '80%',
-            float: 'left',
-        }
-    },
-
-};
 
 export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) {
     const classes = useStyles();
@@ -75,37 +62,35 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
             name: "Name",
             selector: "event_name",
             sortable: true,
-            width: "10%",
+            grow: 2,
+            editable: true
         },
         {
             name: "Summary",
             selector: "event_summary",
             sortable: false,
-            width: "18%",
+            grow: 3
         },
         {
             name: "Role Description",
             selector: "role_description",
             sortable: false,
-            width: "18%",
+            grow: 2
         },
         {
             name: "Location",
             selector: "location",
-            sortable: false,
-            width: "10%",
+            sortable: false
         },
         {
             name: "Start Date/Time",
             selector: "start_datetime",
-            sortable: true,
-            width: "7%",
+            sortable: true
         },
         {
             name: "End Date/Time",
             selector: "end_datetime",
-            sortable: false,
-            width: "7%",
+            sortable: false
         },
         {
             button: true,
@@ -116,8 +101,7 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
                 >
                     EDIT
                 </Button>
-            ),
-            width: "5%",
+            )
         }
     ];
 
@@ -184,19 +168,16 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
                 updateEvents={updateEvents}
             />
             <br /><br /><br />
-            <div className={classes.table}>
-                <DataTable
-                    columns={columns}
-                    data={events}
-                    pagination
-                    persistTableHead
-                    paginationRowsPerPageOptions={[5, 10, 20, 30, 50]}
-                    noHeader
-                    expandableRows
-                    expandableRowsComponent={<ExpandedComponent data={events || null} />}
-                    customStyles={customStyles}
-                />
-            </div>
+            <DataTable
+                columns={columns}
+                data={events}
+                pagination
+                persistTableHead
+                paginationRowsPerPageOptions={[5, 10, 20, 30, 50]}
+                noHeader
+                expandableRows
+                expandableRowsComponent={<ExpandedComponent data={events || null} />}
+            />
         </div>
     )
 }
