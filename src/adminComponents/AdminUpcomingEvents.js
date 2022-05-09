@@ -37,22 +37,8 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         marginRight: "20px",
-    },
-    table: {
-        width: '100%',
-        overflow: 'auto',
     }
 }));
-
-const customStyles = {
-    table: {
-        style: {
-            width: '80%',
-            float: 'left',
-        }
-    },
-
-};
 
 export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) {
     const classes = useStyles();
@@ -75,37 +61,36 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
             name: "Name",
             selector: "event_name",
             sortable: true,
-            width: "10%",
+            grow: 0.7
         },
         {
             name: "Summary",
             selector: "event_summary",
             sortable: false,
-            width: "18%",
         },
         {
             name: "Role Description",
             selector: "role_description",
             sortable: false,
-            width: "18%",
+            grow: 0.8
         },
         {
             name: "Location",
             selector: "location",
             sortable: false,
-            width: "10%",
+            grow: 0.5
         },
         {
             name: "Start Date/Time",
             selector: "start_datetime",
             sortable: true,
-            width: "7%",
+            grow: 0.4
         },
         {
             name: "End Date/Time",
             selector: "end_datetime",
             sortable: false,
-            width: "7%",
+            grow: 0.4
         },
         {
             button: true,
@@ -117,7 +102,6 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
                     EDIT
                 </Button>
             ),
-            width: "5%",
         }
     ];
 
@@ -194,7 +178,6 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
                     noHeader
                     expandableRows
                     expandableRowsComponent={<ExpandedComponent data={events || null} />}
-                    customStyles={customStyles}
                 />
             </div>
         </div>
