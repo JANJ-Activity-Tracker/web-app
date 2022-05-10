@@ -8,7 +8,6 @@ import theme from './styles.js';
 import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from "@material-ui/core";
 import AdminDashboard from './pages/AdminDashboard';
-import Footer from './components/Footer';
 
 const useStyles = makeStyles((theme) => ({
   bg1: {
@@ -59,7 +58,6 @@ function App() {
             (page === "dashboard") && token && isAdmin ? <AdminDashboard page={page} setPage={setPage} /> :
               <Login setPage={setPage} setToken={setToken} setIsAdmin={setIsAdmin} />}
       </div>
-      <Footer />
     </ThemeProvider>
   );
 }

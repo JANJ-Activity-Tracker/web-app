@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "white",
         zIndex: 0,
+        flexGrow: 1,
     },
     box: {
         backgroundColor: theme.palette.primary.main,
