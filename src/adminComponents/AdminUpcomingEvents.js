@@ -62,35 +62,36 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
             name: "Name",
             selector: "event_name",
             sortable: true,
-            grow: 2,
-            editable: true
+            grow: 0.7
         },
         {
             name: "Summary",
             selector: "event_summary",
             sortable: false,
-            grow: 3
         },
         {
             name: "Role Description",
             selector: "role_description",
             sortable: false,
-            grow: 2
+            grow: 0.8
         },
         {
             name: "Location",
             selector: "location",
-            sortable: false
+            sortable: false,
+            grow: 0.5
         },
         {
             name: "Start Date/Time",
             selector: "start_datetime",
-            sortable: true
+            sortable: true,
+            grow: 0.4
         },
         {
             name: "End Date/Time",
             selector: "end_datetime",
-            sortable: false
+            sortable: false,
+            grow: 0.4
         },
         {
             button: true,
@@ -101,7 +102,7 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
                 >
                     EDIT
                 </Button>
-            )
+            ),
         }
     ];
 
@@ -168,16 +169,18 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
                 updateEvents={updateEvents}
             />
             <br /><br /><br />
-            <DataTable
-                columns={columns}
-                data={events}
-                pagination
-                persistTableHead
-                paginationRowsPerPageOptions={[5, 10, 20, 30, 50]}
-                noHeader
-                expandableRows
-                expandableRowsComponent={<ExpandedComponent data={events || null} />}
-            />
+            <div className={classes.table}>
+                <DataTable
+                    columns={columns}
+                    data={events}
+                    pagination
+                    persistTableHead
+                    paginationRowsPerPageOptions={[5, 10, 20, 30, 50]}
+                    noHeader
+                    expandableRows
+                    expandableRowsComponent={<ExpandedComponent data={events || null} />}
+                />
+            </div>
         </div>
     )
 }
