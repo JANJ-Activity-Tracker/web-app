@@ -17,6 +17,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import DataTable from "react-data-table-component";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { request } from "../util";
+import EditIcon from '@mui/icons-material/Edit';
+import EditLog from "./EditLog";
 
 const useStyles = makeStyles((theme) => ({
     text: {
@@ -36,6 +38,12 @@ export default function Portfolio({ events, log, updateLog }) {
     const [comments, setComments] = useState("");
     const [date, setDate] = useState(new Date());
     const [error, setError] = useState("");
+
+    const [showEditLog, setShowEditLog] = useState(false);
+    const [log_info, setLogInfo] = useState({});
+    const [editing, setEditing] = useState(false);
+    const handleShowEditLog = () => setShowEditLog(true);
+    const handleCloseEditLog = () => setShowEditLog(false);
 
     const [openDialog, setOpenDialog] = useState(false);
     const handleClickOpen = () => {
@@ -74,7 +82,18 @@ export default function Portfolio({ events, log, updateLog }) {
             selector: "comments",
             sortable: false,
             grow: 3,
-        }
+        },
+        {
+            button: true,
+            cell: (info) => (
+                <Button
+                    startIcon={<EditIcon />}
+                    onClick={() => { handleShowEditLog(); setLogInfo(info); setEditing(true) }}
+                >
+                    EDIT
+                </Button>
+            ),
+        },
     ];
 
     function handleHoursChange(event) {
@@ -245,7 +264,6 @@ export default function Portfolio({ events, log, updateLog }) {
                                 align="left"
                                 onChange={(e) => setEventName(e.target.value)}
                             >
-                                {console.log(events)}
                                 {events[0] ?
                                     events.map(event => <MenuItem value={event.event_name}>{event.event_name}</MenuItem>)
                                     : <TextField
@@ -324,6 +342,14 @@ export default function Portfolio({ events, log, updateLog }) {
                     </DialogActions>
                 </Dialog>
             </MuiPickersUtilsProvider>
+            <EditLog
+                log_info={log_info}
+                editing={editing}
+                setEditing={setEditing}
+                show={showEditLog}
+                handleClose={handleCloseEditLog}
+                updateLog={updateLog}
+            />
         </div >
     )
 }
