@@ -123,7 +123,6 @@ export default function Profile({ profile, updateProfile }) {
 
     return (
         <div >
-
             <Grid container
                 direction="row"
                 justifyContent="center"
@@ -171,7 +170,6 @@ export default function Profile({ profile, updateProfile }) {
                         </div>
                     </Paper>
                 </Grid>
-
             </Grid>
         </div >
     )

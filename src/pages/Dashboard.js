@@ -10,10 +10,10 @@ import { request } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: "100vh",
-        width: "100vw",
+        width: "100%",
+        height: "100%",
         zIndex: 0,
-        flexGrow: 1,
+        flex: 1,
     },
     box: {
         backgroundColor: theme.palette.primary.main,
@@ -167,7 +167,7 @@ export default function Dashboard({ page, setPage }) {
     });
 
     return (
-        <div align="center" className={classes.root}>
+        <div align="center">
             <Header setPage={setPage} />
             {page === "dashboard" ?
                 <Grid
@@ -201,9 +201,9 @@ export default function Dashboard({ page, setPage }) {
                         </div>
                     </Grid>
                 </Grid>
-                : <Profile profile={profile} updateProfile={updateProfile} />
+                : <div><Profile profile={profile} updateProfile={updateProfile} /></div>
             }
-            <br /><br /><br />
+            <br /><br /><br /><br /><br /><br /><br />
         </div>
     )
 }

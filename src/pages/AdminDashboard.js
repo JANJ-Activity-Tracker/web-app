@@ -10,8 +10,8 @@ import { request } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: "100vh",
-        width: "100vw",
+        height: "100%",
+        width: "100%",
         zIndex: 0,
         flexGrow: 1,
     },

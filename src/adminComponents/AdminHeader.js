@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             width: "100px",
         },
+        marginTop: "10px",
+        marginBottom: "10px",
     },
     title: {
         flexGrow: 1,
