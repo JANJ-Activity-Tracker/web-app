@@ -13,10 +13,10 @@ const theme = createTheme({
     },
     palette: {
         primary: {
-            main: "#39815a", // dark green
+            main: "#275f74", // boundless blue
         },
         secondary: {
-            main: "#98c354", // light green
+            main: "#00a0ae", // resilient turquoise
         },
         textPrimary: {
             light: "#636466", // dark grey

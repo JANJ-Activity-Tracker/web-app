@@ -12,21 +12,19 @@ import { requestRegister } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: "100%",
         width: "100%",
         zIndex: 0,
+        alignItems: "center"
     },
     image: {
-        width: "450px",
+        width: "400px",
         [theme.breakpoints.down('sm')]: {
             width: "200px"
         },
+        marginLeft: "20px",
+        marginRight: "20px",
     },
     paper: {
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
         width: "fit-content",
         padding: "30px",
         paddingBottom: "30px",
@@ -36,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
             top: "0px",
             transform: "translate(-50%, 0)",
         },
+        marginTop: "40px",
+        marginBottom: "100px",
     },
     title: {
         marginTop: "20px",
@@ -137,7 +137,7 @@ export default function Register({ setPage, setToken, setIsAdmin }) {
             <Paper className={classes.paper}>
                 <img src="/JANJ-logo.png" className={classes.image} />
                 <Typography variant="h4" className={classes.title}>
-                    Activity Tracker Registration
+                    Create New Account
                 </Typography>
                 <form>
                     <TextField id="firstname" label="First Name" className={classes.input} onChange={(e) => setFirstname(e.target.value)} />

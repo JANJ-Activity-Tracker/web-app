@@ -4,11 +4,14 @@ import { requestLogin } from "../util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: "100%",
+        height: "100vh",
         width: "100%",
     },
     image: {
-        width: "500px",
+        width: "400px",
+        marginLeft: "30px",
+        marginRight: "30px",
+        marginTop: "10px",
         [theme.breakpoints.down('sm')]: {
             width: "300px",
         },
@@ -88,7 +91,7 @@ export default function Login({ setPage, setToken, setIsAdmin }) {
     }
 
     return (
-        <div align="center" >
+        <div align="center" className={classes.root}>
             <Paper className={classes.paper}>
                 <img src="/JANJ-logo.png" className={classes.image} />
                 <Typography variant="h4" className={classes.title}>

@@ -149,7 +149,12 @@ export default function AdminUpcomingEvents({ events, updateEvents, getEvent }) 
         <div>
             <Typography variant="h4" className={classes.text}>JANJ Upcoming Events</Typography>
             <br />
-            <Button className={classes.button} variant="contained" color="secondary" href={BACKEND_URL + "/core/event/"} style={{ textDecoration: 'none', color: "black" }}>
+            <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                href={BACKEND_URL + "/core/event/"}
+                style={{ textDecoration: 'none', color: "white" }}>
                 Manage Events
             </Button>
             <Button onClick={handleShowAddEvent} variant="contained" color="secondary" >Add Event</Button>

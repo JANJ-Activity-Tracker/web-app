@@ -259,9 +259,15 @@ export default function AdminPortfolio() {
                         <MenuItem value={"event_name"}>Event</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => searchLog(e)}>Search</Button>
+                <Button variant="contained" color="secondary" className={classes.button} onClick={(e) => searchLog(e)}>
+                    Search
+                </Button>
                 {!(Object.keys(log).length === 0 || log.length == 0 || log[0] === undefined || log[0] === null) ?
-                    <Button variant="contained" color="secondary" href={BACKEND_URL + "/core/log/?q=" + searchKey.replace("@", "%40").replaceAll(" ", "+").replaceAll("_", "+")} style={{ textDecoration: 'none', color: "black" }}>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        href={BACKEND_URL + "/core/log/?q=" + searchKey.replace("@", "%40").replaceAll(" ", "+").replaceAll("_", "+")}
+                        style={{ textDecoration: 'none', color: "white" }}>
                         Manage Volunteer Logs
                     </Button> : ""}
                 <br />

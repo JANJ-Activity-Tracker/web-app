@@ -5,21 +5,23 @@ const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "white",
         height: "100vh",
-        width: "100vw",
+        width: "100%",
         zIndex: 0,
-        flexGrow: 1,
+        flexDirection: "column"
     },
     logo: {
         width: "200px",
         [theme.breakpoints.down('sm')]: {
             width: "100px",
         },
+        marginTop: "10px",
+        marginBottom: "10px",
     },
-    title: {
-        flexGrow: 1,
-        [theme.breakpoints.down('sm')]: {
-            fontSize: 15
-        },
+    space: {
+        flexGrow: 1
+    },
+    menu: {
+        alignContent: "flex-end",
     },
     text: {
         color: "white",
@@ -51,7 +53,7 @@ export default function Header({ setPage }) {
             <AppBar position="static">
                 <Toolbar>
                     <img src="/JANJ-logo-white.png" className={classes.logo} />
-                    <Typography variant="h5" gutterBottom className={classes.title}>JANJ Activity Tracker</Typography>
+                    <div className={classes.space} />
                     <IconButton
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
@@ -61,6 +63,7 @@ export default function Header({ setPage }) {
                         <Avatar alt="profile" src="/menu.png" />
                     </IconButton>
                     <Menu
+                        className={classes.menu}
                         id="menu-appbar"
                         anchorEl={menuSelect}
                         anchorOrigin={{
@@ -81,6 +84,6 @@ export default function Header({ setPage }) {
                     </Menu>
                 </Toolbar>
             </AppBar>
-        </div>
+        </div >
     )
 }
