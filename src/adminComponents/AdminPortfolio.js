@@ -152,7 +152,7 @@ export default function AdminPortfolio() {
         const lineDelimiter = '\n';
 
         const keys = Object.keys(array[0]);
-        const headers = ['', 'User Email', 'Event Name', 'Role', 'Hours', 'Comments', 'Date'];
+        const headers = ['', 'id', 'User Email', 'Event Name', 'Role', 'Hours', 'Comments', 'Date'];
 
         result = '';
         result += headers.join(columnDelimiter);
